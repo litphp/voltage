@@ -12,6 +12,9 @@ yet another PHP Framework with extremely tiny codebase
 + You may override anything if needed
 + Code with full [PHPDoc](http://litphp.github.io/doc/)
 
+### Class Diagram
+![](http://litphp.github.io/doc/graphs/classes.svg)
+
 ### Tiny size - maybe the smallest on the planet!
     -------------------------------------------------------------------------------
     Language                     files          blank        comment           code
