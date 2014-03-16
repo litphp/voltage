@@ -11,22 +11,21 @@
  */
 class Lit_Route_Any extends Lit_Route_Base
 {
+    protected $callbacks;
+
     /**
      * @param Lit_App $app
-     * @param callback $callback 出发的cb
-     *
+     * @param callback[] $callbacks
      */
-    function __construct($app, $callback)
+    function __construct($app, $callbacks)
     {
-        $this->callback = $callback;
+        $this->callbacks = $callbacks;
 
         parent::__construct($app);
     }
 
     public function trigger()
     {
-        return call_user_func($this->callback, $this->app);
+        return $this->invokeCallbacks($this->callbacks);
     }
-
-    protected $callback;
 }

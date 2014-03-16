@@ -19,32 +19,39 @@ class Lit_Route_Manager_Basic extends Lit_Route_Base
     protected $routes = array();
 
     /**
-     * @param $pattern string
-     * @param $callback callback
-     * @return $this
+     * 添加regex路由
      *
-     * 添加regex路由 {@see Lit_Route_Regex}
+     * @param string $pattern
+     * @param callable $callback,...
+     * @return $this
+     * @see Lit_Route_Regex
      */
     public function regex($pattern, $callback)
     {
-        return $this->attachRoute(new Lit_Route_Regex($this->app, $pattern, $callback));
+        $callbacks = func_get_args();
+        array_shift($callbacks);
+
+        return $this->attachRoute(new Lit_Route_Regex($this->app, $pattern, $callbacks));
     }
 
     /**
-     * @param $callback callback
-     * @return $this
+     * 添加无条件路由
      *
-     * 添加无条件路由 {@see Lit_Route_Any}
+     * @param callable $callback,...
+     * @return $this
+     * @see Lit_Route_Any
      */
     public function any($callback)
     {
-        return $this->attachRoute(new Lit_Route_Any($this->app, $callback));
+        $callbacks = func_get_args();
+
+        return $this->attachRoute(new Lit_Route_Any($this->app, $callbacks));
     }
 
     /**
-     * @return Lit_Route_Manager_Child
-     *
      * 建立子路由器
+     *
+     * @return Lit_Route_Manager_Child
      */
     public function beginChild()
     {
@@ -52,10 +59,10 @@ class Lit_Route_Manager_Basic extends Lit_Route_Base
     }
 
     /**
+     * 插入路由信息
+     *
      * @param Lit_Route_Base $route
      * @return $this
-     *
-     * 插入路由信息
      */
     public function attachRoute(Lit_Route_Base $route)
     {

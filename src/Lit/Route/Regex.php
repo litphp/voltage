@@ -16,17 +16,17 @@ class Lit_Route_Regex extends Lit_Route_Base
 {
     const MATCHES = 'Route.Regex.matches';
     protected $pattern;
-    protected $callback;
+    protected $callbacks;
 
     /**
      * @param Lit_App $app
      * @param string $pattern 匹配的正则
-     * @param callback $callback 要触发的cb
+     * @param callback[] $callbacks 要触发的cb
      */
-    function __construct($app, $pattern, $callback)
+    function __construct($app, $pattern, $callbacks)
     {
         $this->pattern = $pattern;
-        $this->callback = $callback;
+        $this->callbacks = $callbacks;
 
         parent::__construct($app);
     }
@@ -39,7 +39,7 @@ class Lit_Route_Regex extends Lit_Route_Base
         $match = preg_match($this->pattern, $uri, $matches);
         if($match) {
             $this->app->writeContext(self::MATCHES, $matches);
-            return call_user_func($this->callback, $this->app);
+            return $this->invokeCallbacks($this->callbacks);
         }
 
         return false;
