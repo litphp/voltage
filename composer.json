@@ -1,0 +1,15 @@
+{
+    "name": "litphp/lit",
+    "description": "yet another PHP Framework with extremely tiny codebase",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "McFog Wang",
+            "email": "mcfogw@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+
+    }
+}
