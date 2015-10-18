@@ -8,8 +8,15 @@
             "email": "mcfogw@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Lit\\Core\\": "src"
+        }
+    },
     "require": {
-        "php": ">=5.4.0"
-
+        "php": ">=5.5.0",
+        "mcfog/nimo": "0.1.x-dev",
+        "pimple/pimple": "^3.0",
+        "zendframework/zend-diactoros": "^1.1"
     }
 }
