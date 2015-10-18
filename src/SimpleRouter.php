@@ -19,10 +19,10 @@ class SimpleRouter implements IRouter
         $this->methodNotAllowed = $methodNotAllowed ?: $notFound;
     }
 
-    public function route(ServerRequestInterface $req)
+    public function route(ServerRequestInterface $request)
     {
-        $method = strtolower($req->getMethod());
-        $path = $req->getUri()->getPath();
+        $method = strtolower($request->getMethod());
+        $path = $request->getUri()->getPath();
         if (empty($path)) {
             $path = '/';
         } elseif ($path{0} !== '/') {

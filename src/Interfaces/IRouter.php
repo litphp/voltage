@@ -7,8 +7,8 @@ interface IRouter
 {
 
     /**
-     * @param ServerRequestInterface $req
+     * @param ServerRequestInterface $request
      * @return AbstractMiddleware
      */
-    public function route(ServerRequestInterface $req);
+    public function route(ServerRequestInterface $request);
 }

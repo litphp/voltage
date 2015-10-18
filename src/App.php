@@ -3,7 +3,6 @@
 use Lit\Core\Interfaces\IRouter;
 use Lit\Core\Interfaces\IView;
 use Nimo\AbstractMiddleware;
-use Nimo\MiddlewareErrorException;
 use Nimo\MiddlewareStack;
 use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
@@ -49,42 +48,27 @@ class App extends AbstractMiddleware
             throw new \Exception(__METHOD__ . '/' . __LINE__);
         }
 
-        $next = $this->next;
-
-        $this->next = function (
-            ServerRequestInterface $request = null,
-            ResponseInterface $response = null,
-            $error = null
-        ) {
-            if (isset($request)) {
-                $this->request = $request;
-            }
-
-            if (isset($response)) {
-                $this->response = $response;
-            }
-
-            if (isset($error)) {
-                throw MiddlewareErrorException::wrap($error);
-            }
-
-            return $this->response;
-        };
-
         $this->request = $this->request
             ->withAttribute(self::REQ_ATTR_APP, $this);
 
-        $this->response = $this->invokeCallback($this->beforeStack);
+        return call_user_func($this->beforeStack, $this->request, $this->response, [$this, 'dispatch']);
+    }
+
+    protected function dispatch(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $this->request = $request;
+        $this->response = $response;
 
         $action = $this->router->route($this->request);
+        return call_user_func($action, $this->request, $this->response, [$this, 'afterDispatch']);
+    }
 
-        $this->response = $this->invokeCallback($action);
+    protected function afterDispatch(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $this->request = $request;
+        $this->response = $response;
 
-        $this->response = $this->invokeCallback($this->afterStack);
-
-        $this->next = $next;
-
-        return $this->next();
+        return call_user_func($this->afterStack, $this->request, $this->response, $this->next);
     }
 
     public function append($middleware)
