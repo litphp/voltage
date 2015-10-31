@@ -12,7 +12,6 @@ use Psr\Http\Message\ServerRequestInterface;
  * the lit app class
  *
  * @property IRouter router
- * @property IView view
  */
 class App extends AbstractMiddleware
 {

@@ -47,7 +47,12 @@ class SimpleRouter implements IRouter
         }
 
         if (is_string($middleware) && class_exists($middleware)) {
-            return new $middleware;
+            $instance = new $middleware;
+            if (!is_callable($instance)) {
+                throw new \InvalidArgumentException('illegal middleware classname');
+            }
+
+            return $instance;
         }
 
         throw new \InvalidArgumentException('illegal middleware');
