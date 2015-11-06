@@ -1,9 +1,7 @@
 <?php namespace Lit\Core;
 
+use Lit\Core\Interfaces\IAppAware;
 use Lit\Core\Interfaces\IRouter;
-use Lit\Core\Interfaces\IView;
-use Nimo\AbstractMiddleware;
-use Nimo\MiddlewareStack;
 use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,27 +9,18 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * the lit app class
  *
- * @property IRouter router
+ * @property App $app
+ * @property IRouter $router the main router
  */
-class App extends AbstractMiddleware
+class App
 {
     protected $container;
-    protected $beforeStack;
-    protected $afterStack;
-    protected $error = null;
 
-    const REQ_ATTR_APP = self::class;
-
-    public function __construct(Container $container)
+    public function __construct(Container $container = null)
     {
-        $this->container = $container;
-        $this->beforeStack = new MiddlewareStack();
-        $this->afterStack = new MiddlewareStack();
-    }
+        $this->container = $container ?: static::config();
 
-    public function __get($name)
-    {
-        return $this->container[$name];
+        $this->container['app'] = $this->container->protect($this);
     }
 
     public static function config()
@@ -41,45 +30,79 @@ class App extends AbstractMiddleware
         return $container;
     }
 
-    protected function main()
+    public function __get($name)
     {
-        if ($this->request->getAttribute(self::REQ_ATTR_APP)) {
-            throw new \Exception(__METHOD__ . '/' . __LINE__);
+        if (class_exists($name)) {
+            return $this->produce($name);
+        }
+        return $this->container[$name];
+    }
+
+    public function __isset($name)
+    {
+        return isset($this->{$name}) || isset($this->container[$name]);
+    }
+
+    public function produce($className)
+    {
+        if (isset($this->container[$className]) && $this->container[$className] instanceof $className) {
+            return $this->container[$className];
         }
 
-        $this->request = $this->request
-            ->withAttribute(self::REQ_ATTR_APP, $this);
+        $class = new \ReflectionClass($className);
+        $constructor = $class->getConstructor();
+        $params = $constructor
+            ? array_map([$this, 'produceParam'], $constructor->getParameters())
+            : [];
 
-        return call_user_func($this->beforeStack, $this->request, $this->response, [$this, 'dispatch']);
+        $instance = $class->newInstanceArgs($params);
+        if ($instance instanceof IAppAware) {
+            $instance->setApp($this);
+        }
+
+        if (!isset($this->container[$className])) {
+            $this->container[$className] = $instance;
+        }
+
+        return $instance;
     }
 
-    protected function dispatch(ServerRequestInterface $request, ResponseInterface $response)
+    public function dispatch(IRouter $router)
     {
-        $this->request = $request;
-        $this->response = $response;
-
-        $action = $this->router->route($this->request);
-        return call_user_func($action, $this->request, $this->response, [$this, 'afterDispatch']);
+        return new DispatcherMiddleware($router);
     }
 
-    protected function afterDispatch(ServerRequestInterface $request, ResponseInterface $response)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $this->request = $request;
-        $this->response = $response;
+        $middleware = $this->dispatch($this->router);
 
-        return call_user_func($this->afterStack, $this->request, $this->response, $this->next);
+        return call_user_func($middleware, $request, $response);
     }
 
-    public function append($middleware)
+    protected function produceParam(\ReflectionParameter $parameter)
     {
-        $this->afterStack->append($middleware);
+        $paramClass = $parameter->getClass();
 
-        return $this;
+        if ($paramClass) {
+            return $this->produce($paramClass->getName());
+        }
+
+        if ($parameter->isOptional()) {
+            return $parameter->getDefaultValue();
+        }
+
+        if ($parameter->allowsNull()) {
+            return null;
+        }
+
+        throw new \Exception('failed to produce ' . $parameter->getDeclaringClass()->getName());
     }
 
-    public function prepend($middleware)
+    protected function register($className, $fieldName)
     {
-        $this->beforeStack->prepend($middleware);
+        $this->container[$fieldName] = function () use ($className) {
+            return $this->produce($className);
+        };
 
         return $this;
     }

@@ -1,10 +1,14 @@
 <?php namespace Lit\Core;
 
+use Lit\Core\Interfaces\IAppAware;
 use Lit\Core\Interfaces\IRouter;
+use Lit\Core\Traits\AppAwareTrait;
 use Psr\Http\Message\ServerRequestInterface;
 
-class SimpleRouter implements IRouter
+class SimpleRouter implements IRouter, IAppAware
 {
+    use AppAwareTrait;
+
     protected $routes = [];
     protected $notFound;
     protected $methodNotAllowed;
@@ -32,27 +36,22 @@ class SimpleRouter implements IRouter
         $routes = $this->routes;
 
         if (isset($routes[$path][$method])) {
-            return static::wrap($routes[$path][$method]);
+            return $this->wrap($routes[$path][$method]);
         } elseif (isset($routes[$path])) {
-            return static::wrap($this->methodNotAllowed);
+            return $this->wrap($this->methodNotAllowed);
         } else {
-            return static::wrap($this->notFound);
+            return $this->wrap($this->notFound);
         }
     }
 
-    public static function wrap($middleware)
+    protected function wrap($middleware)
     {
         if (is_callable($middleware)) {
             return $middleware;
         }
 
         if (is_string($middleware) && class_exists($middleware)) {
-            $instance = new $middleware;
-            if (!is_callable($instance)) {
-                throw new \InvalidArgumentException('illegal middleware classname');
-            }
-
-            return $instance;
+            return $this->app->produce($middleware);
         }
 
         throw new \InvalidArgumentException('illegal middleware');
