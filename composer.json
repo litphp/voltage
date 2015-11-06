@@ -18,5 +18,10 @@
         "mcfog/nimo": "0.1.x-dev",
         "pimple/pimple": "^3.0",
         "zendframework/zend-diactoros": "^1.1"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.5.x-dev"
+        }
     }
 }
