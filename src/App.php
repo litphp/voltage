@@ -45,7 +45,7 @@ class App
 
     public function produce($className)
     {
-        if (isset($this->container[$className]) && $this->container[$className] instanceof $className) {
+        if (isset($this->container[$className])) {
             return $this->container[$className];
         }
 
@@ -60,21 +60,16 @@ class App
             $instance->setApp($this);
         }
 
-        if (!isset($this->container[$className])) {
-            $this->container[$className] = $instance;
-        }
+        $this->container[$className] = is_callable($instance)
+            ? $this->container->protect($instance)
+            : $instance;
 
         return $instance;
     }
 
-    public function dispatch(IRouter $router)
-    {
-        return new DispatcherMiddleware($router);
-    }
-
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $middleware = $this->dispatch($this->router);
+        $middleware = new DispatcherMiddleware($this->router);
 
         return call_user_func($middleware, $request, $response);
     }
