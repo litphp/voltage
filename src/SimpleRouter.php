@@ -9,7 +9,9 @@ class SimpleRouter implements IRouter, IAppAware
 {
     use AppAwareTrait;
 
+    protected $mounts = [];
     protected $routes = [];
+    protected $autoSlash = true;
     protected $notFound;
     protected $methodNotAllowed;
 
@@ -39,27 +41,25 @@ class SimpleRouter implements IRouter, IAppAware
             return $this->wrap($routes[$path][$method]);
         } elseif (isset($routes[$path])) {
             return $this->wrap($this->methodNotAllowed);
+        } elseif ($result = $this->findMountedMiddleware($path)) {
+            list($prefix, $middleware) = $result;
+            return (new MountedMiddleware($this->wrap($middleware), $prefix))
+                ->setAutoSlash($this->autoSlash);
         } else {
             return $this->wrap($this->notFound);
         }
     }
 
-    protected function wrap($middleware)
-    {
-        if (is_callable($middleware)) {
-            return $middleware;
-        }
-
-        if (is_string($middleware) && class_exists($middleware)) {
-            return $this->app->produce($middleware);
-        }
-
-        throw new \InvalidArgumentException('illegal middleware');
-    }
-
     public function register($method, $path, $middleware)
     {
         $this->routes[$path][strtolower($method)] = $middleware;
+        return $this;
+    }
+
+    public function mount($prefix, $middleware)
+    {
+        $this->mounts[$prefix] = $middleware;
+
         return $this;
     }
 
@@ -81,5 +81,44 @@ class SimpleRouter implements IRouter, IAppAware
     public function delete($path, $middleware)
     {
         return $this->register('delete', $path, $middleware);
+    }
+
+    /**
+     *
+     * @param boolean $autoSlash
+     * @return $this
+     */
+    public function setAutoSlash($autoSlash)
+    {
+        $this->autoSlash = $autoSlash;
+
+        return $this;
+    }
+
+    protected function findMountedMiddleware($path)
+    {
+        $pattern = implode('|', array_map(function ($prefix) {
+            return preg_quote($prefix, '#');
+        }, array_keys($this->mounts)));
+
+        $count = preg_match("#^(?P<prefix>{$pattern})#", $path, $matches);
+        if ($count === 0) {
+            return null;
+        }
+
+        return [$matches['prefix'], $this->mounts[$matches['prefix']]];
+    }
+
+    protected function wrap($middleware)
+    {
+        if (is_callable($middleware)) {
+            return $middleware;
+        }
+
+        if (is_string($middleware) && class_exists($middleware)) {
+            return $this->app->produce($middleware);
+        }
+
+        throw new \InvalidArgumentException('illegal middleware');
     }
 }
