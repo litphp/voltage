@@ -14,6 +14,9 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class App
 {
+    /**
+     * @var Container
+     */
     protected $container;
 
     public function __construct(Container $container = null)
