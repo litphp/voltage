@@ -97,6 +97,10 @@ class SimpleRouter implements IRouter, IAppAware
 
     protected function findMountedMiddleware($path)
     {
+        if (empty($this->mounts)) {
+            return null;
+        }
+
         $pattern = implode('|', array_map(function ($prefix) {
             return preg_quote($prefix, '#');
         }, array_keys($this->mounts)));
