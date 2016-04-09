@@ -54,8 +54,15 @@ class App
 
         $class = new \ReflectionClass($className);
         $constructor = $class->getConstructor();
+
         $params = $constructor
-            ? array_map([$this, 'produceParam'], $constructor->getParameters())
+            ? array_map(
+                function (\ReflectionParameter $parameter, $idx) use ($className) {
+                    return $this->produceParam($className, $idx, $parameter);
+                },
+                $params = $constructor->getParameters(),
+                array_keys($params)
+            )
             : [];
 
         $instance = $class->newInstanceArgs($params);
@@ -70,16 +77,18 @@ class App
         return $instance;
     }
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
-    {
-        $middleware = new DispatcherMiddleware($this->router);
-
-        return call_user_func($middleware, $request, $response);
-    }
-
-    protected function produceParam(\ReflectionParameter $parameter)
+    protected function produceParam($className, $idx, \ReflectionParameter $parameter)
     {
         $paramClass = $parameter->getClass();
+        $paramName = $parameter->getName();
+
+        if (isset($this->container["$className:$paramName"])) {
+            return $this->container["$className:$paramName"];
+        }
+
+        if (isset($this->container["$className:$idx"])) {
+            return $this->container["$className:$idx"];
+        }
 
         if ($paramClass) {
             return $this->produce($paramClass->getName());
@@ -95,6 +104,14 @@ class App
 
         throw new \Exception('failed to produce ' . $parameter->getDeclaringClass()->getName());
     }
+
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $middleware = new DispatcherMiddleware($this->router);
+
+        return call_user_func($middleware, $request, $response);
+    }
+
 
     protected function register($className, $fieldName)
     {
