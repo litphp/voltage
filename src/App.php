@@ -23,7 +23,7 @@ class App
     {
         $this->container = $container ?: static::config();
 
-        $this->container['app'] = $this->container->protect($this);
+        $this->container[static::class] = $this->container['app'] = $this->container->protect($this);
     }
 
     public static function config()
