@@ -6,7 +6,7 @@ use Zend\Diactoros\Stream;
 
 class JsonView implements IView
 {
-    const JSON_OPTION = JSON_UNESCAPED_UNICODE;
+    protected $jsonOption = JSON_UNESCAPED_UNICODE;
 
     public function render(array $data, ResponseInterface $resp)
     {
@@ -15,9 +15,29 @@ class JsonView implements IView
             $body = new Stream('php://memory', 'wb+');
             $resp = $resp->withBody($body);
         }
-        $body->write(json_encode($data, static::JSON_OPTION));
+        $body->write(json_encode($data, $this->jsonOption));
 
         return $resp
             ->withHeader('Content-Type', 'application/json');
+    }
+
+    /**
+     * @return int
+     */
+    public function getJsonOption()
+    {
+        return $this->jsonOption;
+    }
+
+    /**
+     *
+     * @param int $jsonOption
+     * @return $this
+     */
+    public function setJsonOption($jsonOption)
+    {
+        $this->jsonOption = $jsonOption;
+
+        return $this;
     }
 }
