@@ -78,9 +78,9 @@ class App
                         return $parameters[$idx];
                     }
 
-                    $parameterClass = $parameter->getClass()->getName();
-                    if (isset($parameters[$parameterClass])) {
-                        return $parameters[$parameterClass];
+                    $parameterClass = $parameter->getClass();
+                    if ($parameterClass && isset($parameters[$parameterClass->getName()])) {
+                        return $parameters[$parameterClass->getName()];
                     }
 
                     $parameterName = $parameter->getName();
