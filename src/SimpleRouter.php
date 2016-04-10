@@ -119,10 +119,10 @@ class SimpleRouter implements IRouter, IAppAware
             return $middleware;
         }
 
-        if (is_string($middleware) && class_exists($middleware)) {
-            return $this->app->produce($middleware);
+        try {
+            return $this->app->produceFromStub($middleware);
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException('illegal middleware', 0, $e);
         }
-
-        throw new \InvalidArgumentException('illegal middleware');
     }
 }

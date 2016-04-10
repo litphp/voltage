@@ -46,6 +46,22 @@ class App
         return isset($this->{$name}) || isset($this->container[$name]);
     }
 
+    public function produceFromStub($stub)
+    {
+        if (is_string($stub) && class_exists($stub)) {
+            return $this->produce($stub);
+        }
+
+        if (is_array($stub) && count($stub) === 2) {
+            list($class, $params) = $stub;
+            if (is_array($params) && is_string($class) && class_exists($class)) {
+                return $this->produce($class, $params);
+            }
+        }
+
+        throw new \InvalidArgumentException('invalid stub');
+    }
+
     public function produce($className, $parameters = [])
     {
         if (isset($this->container[$className])) {
@@ -127,11 +143,23 @@ class App
     }
 
 
-    protected function register($className, $fieldName)
+    protected function register($className, $fieldName, array $params = [])
     {
         $this->container[$fieldName] = function () use ($className) {
             return $this->produce($className);
         };
+
+        foreach ($params as $name => $value) {
+            /**
+             * @see http://php.net/manual/en/language.variables.basics.php
+             */
+            $reVarname = '/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/';
+            if (ctype_digit($name) || preg_match($reVarname, $name)) {
+                $this->container["$className:$name"] = $value;
+            } else {
+                throw new \InvalidArgumentException('bad param key');
+            }
+        }
 
         return $this;
     }
