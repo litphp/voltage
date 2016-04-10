@@ -67,6 +67,11 @@ class App
                         return $parameters[$parameterClass];
                     }
 
+                    $parameterName = $parameter->getName();
+                    if (isset($parameters[$parameterName])) {
+                        return $parameters[$parameterName];
+                    }
+
                     return $this->produceParam($className, $idx, $parameter);
                 },
                 $params = $constructor->getParameters(),
