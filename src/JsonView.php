@@ -8,6 +8,11 @@ class JsonView implements IView
 {
     protected $jsonOption = JSON_UNESCAPED_UNICODE;
 
+    /**
+     * @param array $data
+     * @param ResponseInterface $resp
+     * @return ResponseInterface
+     */
     public function render(array $data, ResponseInterface $resp)
     {
         $body = $resp->getBody();

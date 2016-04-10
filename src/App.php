@@ -73,7 +73,8 @@ class App
 
         $params = $constructor
             ? array_map(
-                function (\ReflectionParameter $parameter, $idx) use ($className, $parameters) {
+                function (\ReflectionParameter $parameter) use ($className, $parameters) {
+                    $idx = $parameter->getPosition();
                     if (isset($parameters[$idx])) {
                         return $parameters[$idx];
                     }
@@ -88,10 +89,9 @@ class App
                         return $parameters[$parameterName];
                     }
 
-                    return $this->produceParam($className, $idx, $parameter);
+                    return $this->produceParam($className, $parameter);
                 },
-                $params = $constructor->getParameters(),
-                array_keys($params)
+                $params = $constructor->getParameters()
             )
             : [];
 
@@ -107,10 +107,11 @@ class App
         return $instance;
     }
 
-    protected function produceParam($className, $idx, \ReflectionParameter $parameter)
+    protected function produceParam($className, \ReflectionParameter $parameter)
     {
         $paramClass = $parameter->getClass();
         $paramName = $parameter->getName();
+        $idx = $parameter->getPosition();
 
         if (isset($this->container["$className:$paramName"])) {
             return $this->container["$className:$paramName"];
@@ -132,7 +133,7 @@ class App
             return null;
         }
 
-        throw new \Exception('failed to produce ' . $parameter->getDeclaringClass()->getName());
+        throw new \Exception('failed to produce ' . $parameter);
     }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
