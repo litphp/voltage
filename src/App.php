@@ -46,7 +46,7 @@ class App
         return isset($this->{$name}) || isset($this->container[$name]);
     }
 
-    public function produce($className)
+    public function produce($className, $parameters = [])
     {
         if (isset($this->container[$className])) {
             return $this->container[$className];
@@ -57,7 +57,16 @@ class App
 
         $params = $constructor
             ? array_map(
-                function (\ReflectionParameter $parameter, $idx) use ($className) {
+                function (\ReflectionParameter $parameter, $idx) use ($className, $parameters) {
+                    if (isset($parameters[$idx])) {
+                        return $parameters[$idx];
+                    }
+
+                    $parameterClass = $parameter->getClass()->getName();
+                    if (isset($parameters[$parameterClass])) {
+                        return $parameters[$parameterClass];
+                    }
+
                     return $this->produceParam($className, $idx, $parameter);
                 },
                 $params = $constructor->getParameters(),
