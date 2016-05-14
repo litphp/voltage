@@ -25,7 +25,7 @@ class App
 
     public function __get($name)
     {
-        return $this->container[$name];
+        return $this->container->get($name);
     }
 
     public function __isset($name)
