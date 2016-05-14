@@ -1,8 +1,7 @@
 <?php namespace Lit\Core;
 
-use Lit\Core\Interfaces\IAppAware;
+use Interop\Container\ContainerInterface;
 use Lit\Core\Interfaces\IRouter;
-use Pimple\Container;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -15,29 +14,17 @@ use Psr\Http\Message\ServerRequestInterface;
 class App
 {
     /**
-     * @var Container
+     * @var ContainerInterface
      */
     protected $container;
 
-    public function __construct(Container $container = null)
+    public function __construct(ContainerInterface $container)
     {
-        $this->container = $container ?: static::config();
-
-        $this->container[static::class] = $this->container['app'] = $this->container->protect($this);
-    }
-
-    public static function config()
-    {
-        $container = new Container();
-
-        return $container;
+        $this->container = $container;
     }
 
     public function __get($name)
     {
-        if (class_exists($name)) {
-            return $this->produce($name);
-        }
         return $this->container[$name];
     }
 
@@ -46,122 +33,11 @@ class App
         return isset($this->{$name}) || isset($this->container[$name]);
     }
 
-    public function produceFromStub($stub)
-    {
-        if (is_string($stub) && class_exists($stub)) {
-            return $this->produce($stub);
-        }
-
-        if (is_array($stub) && count($stub) === 2) {
-            list($class, $params) = $stub;
-            if (is_array($params) && is_string($class) && class_exists($class)) {
-                return $this->produce($class, $params);
-            }
-        }
-
-        throw new \InvalidArgumentException('invalid stub');
-    }
-
-    public function produce($className, $parameters = [])
-    {
-        if (isset($this->container[$className])) {
-            return $this->container[$className];
-        }
-
-        $class = new \ReflectionClass($className);
-        $constructor = $class->getConstructor();
-
-        $params = $constructor
-            ? array_map(
-                function (\ReflectionParameter $parameter) use ($className, $parameters) {
-                    $idx = $parameter->getPosition();
-                    if (isset($parameters[$idx])) {
-                        return $parameters[$idx];
-                    }
-
-                    $parameterClass = $parameter->getClass();
-                    if ($parameterClass && isset($parameters[$parameterClass->getName()])) {
-                        return $parameters[$parameterClass->getName()];
-                    }
-
-                    $parameterName = $parameter->getName();
-                    if (isset($parameters[$parameterName])) {
-                        return $parameters[$parameterName];
-                    }
-
-                    return $this->produceParam($className, $parameter);
-                },
-                $params = $constructor->getParameters()
-            )
-            : [];
-
-        $instance = $class->newInstanceArgs($params);
-        if ($instance instanceof IAppAware) {
-            $instance->setApp($this);
-        }
-
-        $this->container[$className] = is_callable($instance)
-            ? $this->container->protect($instance)
-            : $instance;
-
-        return $instance;
-    }
-
-    protected function produceParam($className, \ReflectionParameter $parameter)
-    {
-        $paramClass = $parameter->getClass();
-        $paramName = $parameter->getName();
-        $idx = $parameter->getPosition();
-
-        if (isset($this->container["$className:$paramName"])) {
-            return $this->container["$className:$paramName"];
-        }
-
-        if (isset($this->container["$className:$idx"])) {
-            return $this->container["$className:$idx"];
-        }
-
-        if ($paramClass) {
-            return $this->produce($paramClass->getName());
-        }
-
-        if ($parameter->isOptional()) {
-            return $parameter->getDefaultValue();
-        }
-
-        if ($parameter->allowsNull()) {
-            return null;
-        }
-
-        throw new \Exception('failed to produce ' . $parameter);
-    }
 
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response)
     {
         $middleware = new DispatcherMiddleware($this->router);
 
         return call_user_func($middleware, $request, $response);
-    }
-
-
-    protected function register($className, $fieldName, array $params = [])
-    {
-        $this->container[$fieldName] = function () use ($className) {
-            return $this->produce($className);
-        };
-
-        foreach ($params as $name => $value) {
-            /**
-             * @see http://php.net/manual/en/language.variables.basics.php
-             */
-            $reVarname = '/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/';
-            if (ctype_digit($name) || preg_match($reVarname, $name)) {
-                $this->container["$className:$name"] = $value;
-            } else {
-                throw new \InvalidArgumentException('bad param key');
-            }
-        }
-
-        return $this;
     }
 }

@@ -16,8 +16,8 @@
     "require": {
         "php": ">=5.5.0",
         "mcfog/nimo": "0.1.x-dev",
-        "pimple/pimple": "^3.0",
-        "zendframework/zend-diactoros": "^1.1"
+        "zendframework/zend-diactoros": "^1.1.0",
+        "container-interop/container-interop": "^1.1.0"
     },
     "extra": {
         "branch-alias": {

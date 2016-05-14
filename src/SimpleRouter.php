@@ -1,28 +1,31 @@
 <?php namespace Lit\Core;
 
-use Lit\Core\Interfaces\IAppAware;
 use Lit\Core\Interfaces\IRouter;
-use Lit\Core\Traits\AppAwareTrait;
+use Lit\Core\Interfaces\IStubResolver;
 use Psr\Http\Message\ServerRequestInterface;
 
-class SimpleRouter implements IRouter, IAppAware
+class SimpleRouter implements IRouter
 {
-    use AppAwareTrait;
-
     protected $mounts = [];
     protected $routes = [];
     protected $autoSlash = true;
     protected $notFound;
     protected $methodNotAllowed;
+    /**
+     * @var IStubResolver
+     */
+    protected $resolver;
 
     /**
-     * @param callable|string $notFound
-     * @param callable|string|null $methodNotAllowed
+     * @param IStubResolver $resolver
+     * @param mixed $notFound stub for notFoundMiddleware
+     * @param mixed $methodNotAllowed stub for methodNotAllowedMiddleware
      */
-    public function __construct($notFound, $methodNotAllowed = null)
+    public function __construct(IStubResolver $resolver, $notFound, $methodNotAllowed = null)
     {
         $this->notFound = $notFound;
         $this->methodNotAllowed = $methodNotAllowed ?: $notFound;
+        $this->resolver = $resolver;
     }
 
     public function route(ServerRequestInterface $request)
@@ -38,21 +41,21 @@ class SimpleRouter implements IRouter, IAppAware
         $routes = $this->routes;
 
         if (isset($routes[$path][$method])) {
-            return $this->wrap($routes[$path][$method]);
+            return $this->resolve($routes[$path][$method]);
         } elseif (isset($routes[$path])) {
-            return $this->wrap($this->methodNotAllowed);
+            return $this->resolve($this->methodNotAllowed);
         } elseif ($result = $this->findMountedMiddleware($path)) {
             list($prefix, $middleware) = $result;
-            return (new MountedMiddleware($this->wrap($middleware), $prefix))
+            return (new MountedMiddleware($this->resolve($middleware), $prefix))
                 ->setAutoSlash($this->autoSlash);
         } else {
-            return $this->wrap($this->notFound);
+            return $this->resolve($this->notFound);
         }
     }
 
-    public function register($method, $path, $middleware)
+    public function register($method, $path, $routeStub)
     {
-        $this->routes[$path][strtolower($method)] = $middleware;
+        $this->routes[$path][strtolower($method)] = $routeStub;
         return $this;
     }
 
@@ -113,14 +116,10 @@ class SimpleRouter implements IRouter, IAppAware
         return [$matches['prefix'], $this->mounts[$matches['prefix']]];
     }
 
-    protected function wrap($middleware)
+    protected function resolve($stub)
     {
-        if (is_callable($middleware)) {
-            return $middleware;
-        }
-
         try {
-            return $this->app->produceFromStub($middleware);
+            return $this->resolver->resolve($stub);
         } catch (\Exception $e) {
             throw new \InvalidArgumentException('illegal middleware', 0, $e);
         }
