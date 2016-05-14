@@ -4,31 +4,26 @@ use Lit\Core\Interfaces\IRouter;
 use Lit\Core\Interfaces\IStubResolver;
 use Psr\Http\Message\ServerRequestInterface;
 
-class SimpleRouter implements IRouter
+class SimpleRouter extends AbstractRouter
 {
     protected $mounts = [];
     protected $routes = [];
     protected $autoSlash = true;
-    protected $notFound;
     protected $methodNotAllowed;
-    /**
-     * @var IStubResolver
-     */
-    protected $resolver;
 
     /**
      * @param IStubResolver $resolver
      * @param mixed $notFound stub for notFoundMiddleware
      * @param mixed $methodNotAllowed stub for methodNotAllowedMiddleware
      */
-    public function __construct(IStubResolver $resolver, $notFound, $methodNotAllowed = null)
+    public function __construct(IStubResolver $stubResolver, $notFound, $methodNotAllowed = null)
     {
-        $this->notFound = $notFound;
+        parent::__construct($stubResolver, $notFound);
+        
         $this->methodNotAllowed = $methodNotAllowed ?: $notFound;
-        $this->resolver = $resolver;
     }
 
-    public function route(ServerRequestInterface $request)
+    protected function findStub(ServerRequestInterface $request)
     {
         $method = strtolower($request->getMethod());
         $path = $request->getUri()->getPath();
@@ -41,15 +36,15 @@ class SimpleRouter implements IRouter
         $routes = $this->routes;
 
         if (isset($routes[$path][$method])) {
-            return $this->resolve($routes[$path][$method]);
-        } elseif (isset($routes[$path])) {
-            return $this->resolve($this->methodNotAllowed);
+            return $routes[$path][$method];
+        } elseif (isset($routes[$path]) && isset($this->methodNotAllowed)) {
+            return $this->methodNotAllowed;
         } elseif ($result = $this->findMountedMiddleware($path)) {
-            list($prefix, $middleware) = $result;
-            return (new MountedMiddleware($this->resolve($middleware), $prefix))
+            list($prefix, $stub) = $result;
+            return (new MountedMiddleware($this->resolve($stub), $prefix))
                 ->setAutoSlash($this->autoSlash);
         } else {
-            return $this->resolve($this->notFound);
+            return $this->notFound;
         }
     }
 
@@ -114,14 +109,5 @@ class SimpleRouter implements IRouter
         }
 
         return [$matches['prefix'], $this->mounts[$matches['prefix']]];
-    }
-
-    protected function resolve($stub)
-    {
-        try {
-            return $this->resolver->resolve($stub);
-        } catch (\Exception $e) {
-            throw new \InvalidArgumentException('illegal middleware', 0, $e);
-        }
     }
 }
