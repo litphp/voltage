@@ -28,11 +28,7 @@ class SimpleRouter extends AbstractRouter
     {
         $method = strtolower($request->getMethod());
         $path = $request->getUri()->getPath();
-        if (empty($path)) {
-            $path = '/';
-        } elseif ($path{0} !== '/') {
-            $path = "/$path";
-        }
+        $path = self::autoPrependSlash($path);
 
         $routes = $this->routes;
 

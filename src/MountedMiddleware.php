@@ -50,12 +50,8 @@ class MountedMiddleware extends AbstractMiddleware
         }
 
         $path = substr($originPath, $prefixLen) ?: '';
-        switch (true) {
-            case !$this->autoSlash:
-                break;
-            case empty($path):
-            case substr($this->prefix, -1) === '/' && $path{0} !== '/':
-                $path = "/$path";
+        if ($this->autoSlash) {
+            $path = AbstractRouter::autoPrependSlash($path);
         }
         $uri = $uri->withPath($path);
         /**

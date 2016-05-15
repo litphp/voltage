@@ -37,4 +37,17 @@ abstract class AbstractRouter implements IRouter
     {
         return $this->stubResolver->resolve($stub);
     }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    public static function autoPrependSlash($path)
+    {
+        if ($path === '' || $path{0} !== '/') {
+            return "/$path";
+        } else {
+            return $path;
+        }
+    }
 }
