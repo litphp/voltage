@@ -13,6 +13,8 @@
             "Lit\\Core\\": "src"
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=5.5.0",
         "mcfog/nimo": "0.1.x-dev",

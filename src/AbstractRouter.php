@@ -14,8 +14,9 @@ abstract class AbstractRouter implements IRouter
     protected $stubResolver;
 
     /**
-     * @param IStubResolver $resolver
+     * @param IStubResolver $stubResolver
      * @param mixed $notFound stub for notFoundMiddleware
+     * @internal param IStubResolver $resolver
      */
     public function __construct(IStubResolver $stubResolver, $notFound)
     {

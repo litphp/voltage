@@ -12,9 +12,10 @@ class SimpleRouter extends AbstractRouter
     protected $methodNotAllowed;
 
     /**
-     * @param IStubResolver $resolver
+     * @param IStubResolver $stubResolver
      * @param mixed $notFound stub for notFoundMiddleware
      * @param mixed $methodNotAllowed stub for methodNotAllowedMiddleware
+     * @internal param IStubResolver $resolver
      */
     public function __construct(IStubResolver $stubResolver, $notFound, $methodNotAllowed = null)
     {
