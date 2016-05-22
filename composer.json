@@ -17,7 +17,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=5.5.0",
-        "mcfog/nimo": "0.1.x-dev",
+        "litphp/nimo": ">=0.2.0",
         "zendframework/zend-diactoros": "^1.1.0",
         "container-interop/container-interop": "^1.1.0"
     },
