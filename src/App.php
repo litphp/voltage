@@ -1,5 +1,6 @@
 <?php namespace Lit\Core;
 
+use Acclimate\Container\CompositeContainer;
 use Interop\Container\ContainerInterface;
 use Lit\Core\Interfaces\IRouter;
 use Psr\Http\Message\ResponseInterface;
@@ -14,13 +15,17 @@ use Psr\Http\Message\ServerRequestInterface;
 class App
 {
     /**
-     * @var ContainerInterface
+     * @var CompositeContainer
      */
     protected $container;
 
-    public function __construct(ContainerInterface $container)
+    /**
+     * App constructor.
+     * @param ContainerInterface[] $container
+     */
+    public function __construct(array $containers = [])
     {
-        $this->container = $container;
+        $this->container = new CompositeContainer($containers);
     }
 
     public function __get($name)
@@ -39,5 +44,13 @@ class App
         $middleware = new DispatcherMiddleware($this->router);
 
         return call_user_func($middleware, $request, $response);
+    }
+
+    /**
+     * @return CompositeContainer
+     */
+    public function getContainer()
+    {
+        return $this->container;
     }
 }
