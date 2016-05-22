@@ -18,7 +18,7 @@
     "require": {
         "php": ">=5.5.0",
         "litphp/nimo": ">=0.2.0",
-        "zendframework/zend-diactoros": "^1.1.0",
+        "zendframework/zend-diactoros": "^1",
         "container-interop/container-interop": "^1.1.0"
     },
     "extra": {
