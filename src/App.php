@@ -30,7 +30,7 @@ class App
 
     public function __isset($name)
     {
-        return isset($this->{$name}) || isset($this->container[$name]);
+        return isset($this->{$name}) || $this->container->has($name);
     }
 
 
