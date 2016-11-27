@@ -2,7 +2,6 @@
 
 use Lit\Core\Interfaces\IRouter;
 use Lit\Core\Interfaces\IStubResolver;
-use Nimo\AbstractMiddleware;
 use Psr\Http\Message\ServerRequestInterface;
 
 abstract class AbstractRouter implements IRouter
@@ -16,7 +15,6 @@ abstract class AbstractRouter implements IRouter
     /**
      * @param IStubResolver $stubResolver
      * @param mixed $notFound stub for notFoundMiddleware
-     * @internal param IStubResolver $resolver
      */
     public function __construct(IStubResolver $stubResolver, $notFound)
     {

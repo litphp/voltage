@@ -1,6 +1,5 @@
 <?php namespace Lit\Core;
 
-use Lit\Core\Interfaces\IRouter;
 use Lit\Core\Interfaces\IStubResolver;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -15,7 +14,6 @@ class SimpleRouter extends AbstractRouter
      * @param IStubResolver $stubResolver
      * @param mixed $notFound stub for notFoundMiddleware
      * @param mixed $methodNotAllowed stub for methodNotAllowedMiddleware
-     * @internal param IStubResolver $resolver
      */
     public function __construct(IStubResolver $stubResolver, $notFound, $methodNotAllowed = null)
     {
