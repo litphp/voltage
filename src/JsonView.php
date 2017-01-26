@@ -2,7 +2,6 @@
 
 use Lit\Core\Interfaces\IView;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Stream;
 
 class JsonView implements IView
 {
@@ -16,10 +15,13 @@ class JsonView implements IView
     public function render(array $data, ResponseInterface $resp)
     {
         $body = $resp->getBody();
-        if (!$body->isWritable() || $body->getSize() !== 0) {
-            $body = new Stream('php://memory', 'wb+');
-            $resp = $resp->withBody($body);
+        if (!$body->isWritable()) {
+            throw new \Exception('response body is not writeble');
         }
+        if ($body->getSize() !== 0) {
+            throw new \Exception('response body is not empty');
+        }
+
         $body->write(json_encode($data, $this->jsonOption));
 
         return $resp

@@ -3,7 +3,7 @@
 use Lit\Core\Interfaces\IStubResolver;
 use Psr\Http\Message\ServerRequestInterface;
 
-class SimpleRouter extends AbstractRouter
+class BasicRouter extends AbstractRouter
 {
     protected $mounts = [];
     protected $routes = [];
