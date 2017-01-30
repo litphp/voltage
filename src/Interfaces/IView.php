@@ -6,8 +6,13 @@ interface IView
 {
     /**
      * @param array $data
-     * @param ResponseInterface $resp
      * @return ResponseInterface
      */
-    public function render(array $data, ResponseInterface $resp);
+    public function render(array $data = []);
+
+    /**
+     * @param ResponseInterface $response
+     * @return $this
+     */
+    public function setResponse(ResponseInterface $response);
 }

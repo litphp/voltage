@@ -5,8 +5,12 @@ use Nimo\AbstractMiddleware;
 
 abstract class Action extends AbstractMiddleware
 {
-    protected function renderView(IView $view, array $data = [])
+    /**
+     * @param IView $view
+     * @return IView
+     */
+    protected function attachView(IView $view)
     {
-        return $view->render($data, $this->response);
+        return $view->setResponse($this->response);
     }
 }
