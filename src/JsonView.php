@@ -12,7 +12,6 @@ class JsonView implements IView
 
     /**
      * @param array $data
-     * @param ResponseInterface $resp
      * @return ResponseInterface
      */
     public function render(array $data = [])
