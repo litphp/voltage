@@ -1,6 +1,6 @@
 <?php namespace Lit\Core\Interfaces;
 
-use Nimo\AbstractMiddleware;
+use Lit\Core\AbstractMiddleware;
 use Psr\Http\Message\ServerRequestInterface;
 
 interface IRouter
@@ -8,7 +8,7 @@ interface IRouter
 
     /**
      * @param ServerRequestInterface $request
-     * @return AbstractMiddleware|callable
+     * @return AbstractMiddleware
      */
     public function route(ServerRequestInterface $request);
 }
