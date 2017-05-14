@@ -2,6 +2,7 @@
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 abstract class AbstractMiddleware implements MiddlewareInterface
@@ -24,7 +25,10 @@ abstract class AbstractMiddleware implements MiddlewareInterface
         return $this->main();
     }
 
-    abstract protected function main();
+    /**
+     * @return ResponseInterface
+     */
+    abstract protected function main():ResponseInterface;
 
     protected function next(ServerRequestInterface $request = null)
     {

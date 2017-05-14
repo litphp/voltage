@@ -1,6 +1,6 @@
 <?php namespace Lit\Core;
 
-use Nimo\AbstractMiddleware;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class MountedMiddleware extends AbstractMiddleware
@@ -8,7 +8,7 @@ class MountedMiddleware extends AbstractMiddleware
     const ATTR_KEY = self::class;
     protected $autoSlash = true;
     /**
-     * @var callable
+     * @var MiddlewareInterface
      */
     protected $middleware;
     /**
@@ -16,7 +16,7 @@ class MountedMiddleware extends AbstractMiddleware
      */
     protected $prefix;
 
-    public function __construct($middleware, $prefix)
+    public function __construct(MiddlewareInterface $middleware, $prefix)
     {
         if (empty($prefix)) {
             throw new \InvalidArgumentException;
@@ -64,7 +64,7 @@ class MountedMiddleware extends AbstractMiddleware
             $request = $request->withAttribute($key, $originPath);
         }
 
-        return call_user_func($this->middleware, $request, $this->response, $this->next);
+        return $this->middleware->process($request, $this->delegate);
     }
 
 }

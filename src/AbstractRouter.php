@@ -29,6 +29,10 @@ abstract class AbstractRouter implements IRouter
         return $stub ? $this->resolve($stub) : $this->resolve($this->notFound);
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return mixed
+     */
     abstract protected function findStub(ServerRequestInterface $request);
 
     protected function resolve($stub)
