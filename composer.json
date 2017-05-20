@@ -17,7 +17,7 @@
     "prefer-stable": true,
     "require": {
         "http-interop/http-middleware": "^0.4.1",
-        "php": ">=5.5.0",
+        "php": ">=7.0.0",
         "zendframework/zend-stratigility": "^2.0.1"
     },
     "extra": {
