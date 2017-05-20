@@ -30,7 +30,7 @@ abstract class AbstractMiddleware implements MiddlewareInterface
      */
     abstract protected function main():ResponseInterface;
 
-    protected function next(ServerRequestInterface $request = null)
+    protected function next(ServerRequestInterface $request = null):ResponseInterface
     {
         return $this->delegate->process($request ?: $this->request);
     }

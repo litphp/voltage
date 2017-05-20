@@ -1,6 +1,7 @@
 <?php namespace Lit\Core;
 
 use Lit\Core\Interfaces\IRouter;
+use Psr\Http\Message\ResponseInterface;
 
 class DispatcherMiddleware extends AbstractMiddleware
 {
@@ -18,7 +19,7 @@ class DispatcherMiddleware extends AbstractMiddleware
         $this->router = $router;
     }
 
-    protected function main()
+    protected function main():ResponseInterface
     {
         $action = $this->router->route($this->request);
 
