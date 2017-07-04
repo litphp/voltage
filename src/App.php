@@ -1,16 +1,19 @@
 <?php namespace Lit\Core;
 
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Lit\Core\Interfaces\IRouter;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Route;
 
 /**
  * the lit app class
  */
 class App extends MiddlewarePipe
 {
+    /**
+     * @var IRouter
+     */
+    protected $router;
+
     /**
      * App constructor.
      * @param IRouter $router
@@ -20,12 +23,11 @@ class App extends MiddlewarePipe
         parent::__construct();
 
         $this->setResponsePrototype($responsePrototype);
-        $this->pipe(new DispatcherMiddleware($router));
+        $this->router = $router;
     }
 
-    public function prepend(MiddlewareInterface $middleware, $path = '/')
+    protected function pipeMiddlewares()
     {
-        $this->pipeline->unshift(new Route($path, $middleware));
-        return $this;
+        $this->pipe(new DispatcherMiddleware($this->router));
     }
 }
