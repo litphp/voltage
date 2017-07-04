@@ -24,6 +24,8 @@ class App extends MiddlewarePipe
 
         $this->setResponsePrototype($responsePrototype);
         $this->router = $router;
+
+        $this->pipeMiddlewares();
     }
 
     protected function pipeMiddlewares()
