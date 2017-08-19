@@ -6,7 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class MountedMiddleware extends AbstractMiddleware
 {
-    const ATTR_KEY = self::class;
+    const ATTR_PREFIX = self::class;
     protected $autoSlash = true;
     /**
      * @var MiddlewareInterface
@@ -28,7 +28,7 @@ class MountedMiddleware extends AbstractMiddleware
 
     public static function getOriginPath(ServerRequestInterface $request)
     {
-        return $request->getAttribute(static::ATTR_KEY . '.originPath');
+        return $request->getAttribute(static::ATTR_PREFIX . '.originPath');
     }
 
     /**
@@ -60,7 +60,7 @@ class MountedMiddleware extends AbstractMiddleware
          */
         $request = $this->request->withUri($uri);
 
-        $key = static::ATTR_KEY . '.originPath';
+        $key = static::ATTR_PREFIX . '.originPath';
         if (!$request->getAttribute($key)) {
             $request = $request->withAttribute($key, $originPath);
         }
