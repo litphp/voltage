@@ -1,0 +1,28 @@
+{
+    "name": "litphp/lit",
+    "description": "yet another PHP Framework with extremely tiny codebase",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "McFog Wang",
+            "email": "mcfogw@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lit\\Core\\": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "http-interop/http-middleware": "^0.4.1",
+        "php": ">=7.0.0",
+        "zendframework/zend-stratigility": "^2.0.1"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.7.x-dev"
+        }
+    }
+}

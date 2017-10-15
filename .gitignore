@@ -1,2 +1,2 @@
-/doc
-/.tmp
+/vendor/
+composer.lock
