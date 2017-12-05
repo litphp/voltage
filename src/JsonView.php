@@ -1,14 +1,14 @@
 <?php namespace Lit\Core;
 
-use Lit\Core\Interfaces\IView;
+use Lit\Core\Interfaces\ViewInterface;
 use Lit\Core\Traits\ViewTrait;
 use Psr\Http\Message\ResponseInterface;
 
-class JsonView implements IView
+class JsonView implements ViewInterface
 {
     use ViewTrait;
 
-    protected $jsonOption = JSON_UNESCAPED_UNICODE;
+    protected $jsonOption = 0;
 
     /**
      * @param array $data

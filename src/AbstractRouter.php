@@ -1,28 +1,32 @@
 <?php namespace Lit\Core;
 
-use Lit\Core\Interfaces\IRouter;
-use Lit\Core\Interfaces\IStubResolver;
+use Interop\Http\Server\RequestHandlerInterface;
+use Lit\Core\Interfaces\RouterInterface;
+use Lit\Core\Interfaces\RouterStubResolverInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-abstract class AbstractRouter implements IRouter
+abstract class AbstractRouter implements RouterInterface
 {
+    /**
+     * @var mixed
+     */
     protected $notFound;
     /**
-     * @var IStubResolver
+     * @var RouterStubResolverInterface
      */
     protected $stubResolver;
 
     /**
-     * @param IStubResolver $stubResolver
-     * @param mixed $notFound stub for notFoundMiddleware
+     * @param RouterStubResolverInterface $stubResolver
+     * @param RequestHandlerInterface $notFound
      */
-    public function __construct(IStubResolver $stubResolver, $notFound)
+    public function __construct(RouterStubResolverInterface $stubResolver, $notFound)
     {
         $this->notFound = $notFound;
         $this->stubResolver = $stubResolver;
     }
 
-    public function route(ServerRequestInterface $request)
+    public function route(ServerRequestInterface $request): RequestHandlerInterface
     {
         $stub = $this->findStub($request);
 
@@ -35,7 +39,7 @@ abstract class AbstractRouter implements IRouter
      */
     abstract protected function findStub(ServerRequestInterface $request);
 
-    protected function resolve($stub)
+    protected function resolve($stub): RequestHandlerInterface
     {
         return $this->stubResolver->resolve($stub);
     }
@@ -44,7 +48,7 @@ abstract class AbstractRouter implements IRouter
      * @param string $path
      * @return string
      */
-    public static function autoPrependSlash($path)
+    public static function autoPrependSlash(string $path): string
     {
         if ($path === '' || $path{0} !== '/') {
             return "/$path";

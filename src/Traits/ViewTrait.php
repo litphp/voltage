@@ -25,16 +25,16 @@ trait ViewTrait
      * ensure body is empty and writable and return that
      *
      * @return \Psr\Http\Message\StreamInterface
-     * @throws \Exception
+     * @throws \RuntimeException
      */
     protected function getEmptyBody()
     {
         $body = $this->response->getBody();
         if (!$body->isWritable()) {
-            throw new \Exception('response body is not writeble');
+            throw new \RuntimeException('response body is not writeble');
         }
         if ($body->getSize() !== 0) {
-            throw new \Exception('response body is not empty');
+            throw new \RuntimeException('response body is not empty');
         }
 
         return $body;

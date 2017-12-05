@@ -1,6 +1,6 @@
 <?php namespace Lit\Core;
 
-use Lit\Core\Interfaces\IStubResolver;
+use Lit\Core\Interfaces\RouterStubResolverInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class BasicRouter extends AbstractRouter
@@ -11,11 +11,11 @@ class BasicRouter extends AbstractRouter
     protected $methodNotAllowed;
 
     /**
-     * @param IStubResolver $stubResolver
+     * @param RouterStubResolverInterface $stubResolver
      * @param mixed $notFound stub for notFoundMiddleware
      * @param mixed $methodNotAllowed stub for methodNotAllowedMiddleware
      */
-    public function __construct(IStubResolver $stubResolver, $notFound, $methodNotAllowed = null)
+    public function __construct(RouterStubResolverInterface $stubResolver, $notFound, $methodNotAllowed = null)
     {
         parent::__construct($stubResolver, $notFound);
         
@@ -34,75 +34,39 @@ class BasicRouter extends AbstractRouter
             return $routes[$path][$method];
         } elseif (isset($routes[$path]) && isset($this->methodNotAllowed)) {
             return $this->methodNotAllowed;
-        } elseif ($result = $this->findMountedMiddleware($path)) {
-            list($prefix, $stub) = $result;
-            return (new MountedMiddleware($this->resolve($stub), $prefix))
-                ->setAutoSlash($this->autoSlash);
         } else {
             return $this->notFound;
         }
     }
 
-    public function register($method, $path, $routeStub)
+    public function register(string $method, string $path, $routeStub): BasicRouter
     {
         $this->routes[$path][strtolower($method)] = $routeStub;
         return $this;
     }
 
-    public function mount($prefix, $middleware)
+    public function get(string $path, $routeStub): BasicRouter
     {
-        $this->mounts[$prefix] = $middleware;
-
-        return $this;
+        return $this->register('get', $path, $routeStub);
     }
 
-    public function get($path, $middleware)
+    public function post(string $path, $routeStub): BasicRouter
     {
-        return $this->register('get', $path, $middleware);
+        return $this->register('post', $path, $routeStub);
     }
 
-    public function post($path, $middleware)
+    public function put(string $path, $routeStub): BasicRouter
     {
-        return $this->register('post', $path, $middleware);
+        return $this->register('put', $path, $routeStub);
     }
 
-    public function put($path, $middleware)
+    public function delete(string $path, $routeStub): BasicRouter
     {
-        return $this->register('put', $path, $middleware);
+        return $this->register('delete', $path, $routeStub);
     }
 
-    public function delete($path, $middleware)
+    public function patch(string $path, $routeStub): BasicRouter
     {
-        return $this->register('delete', $path, $middleware);
-    }
-
-    /**
-     *
-     * @param boolean $autoSlash
-     * @return $this
-     */
-    public function setAutoSlash($autoSlash)
-    {
-        $this->autoSlash = $autoSlash;
-
-        return $this;
-    }
-
-    protected function findMountedMiddleware($path)
-    {
-        if (empty($this->mounts)) {
-            return null;
-        }
-
-        $pattern = implode('|', array_map(function ($prefix) {
-            return preg_quote($prefix, '#');
-        }, array_keys($this->mounts)));
-
-        $count = preg_match("#^(?P<prefix>{$pattern})#", $path, $matches);
-        if ($count === 0) {
-            return null;
-        }
-
-        return [$matches['prefix'], $this->mounts[$matches['prefix']]];
+        return $this->register('patch', $path, $routeStub);
     }
 }

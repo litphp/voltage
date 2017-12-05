@@ -1,21 +1,28 @@
 <?php namespace Lit\Core;
 
-use Lit\Core\Interfaces\IView;
-use Psr\Http\Message\ResponseInterface;
+use Interop\Http\Factory\ResponseFactoryInterface;
+use Lit\Core\Interfaces\ViewInterface;
+use Nimo\AbstractHandler;
 
-abstract class Action extends AbstractMiddleware
+abstract class Action extends AbstractHandler
 {
     /**
-     * @var ResponseInterface
+     * @var ResponseFactoryInterface
      */
-    protected $responsePrototype;
+    protected $responseFactory;
 
     /**
-     * @param IView $view
-     * @return IView
+     * @param ViewInterface $view
+     * @return ViewInterface
      */
-    protected function attachView(IView $view)
+    protected function attachView(ViewInterface $view)
     {
-        return $view->setResponse($this->responsePrototype);
+        return $view->setResponse($this->responseFactory->createResponse());
+    }
+
+    protected function json(): JsonView
+    {
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->attachView(new JsonView());
     }
 }

@@ -1,35 +1,29 @@
 <?php namespace Lit\Core;
 
-use Lit\Core\Interfaces\IRouter;
+use Interop\Http\Server\RequestHandlerInterface;
+use Nimo\AbstractHandler;
+use Nimo\MiddlewareStack;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Stratigility\MiddlewarePipe;
 
-/**
- * the lit app class
- */
-class App extends MiddlewarePipe
+class App extends AbstractHandler
 {
     /**
-     * @var IRouter
+     * @var MiddlewareStack
      */
-    protected $router;
-
+    protected $middlewareStack;
     /**
-     * App constructor.
-     * @param IRouter $router
+     * @var RequestHandlerInterface
      */
-    public function __construct(IRouter $router, ResponseInterface $responsePrototype)
+    protected $businessLogicHandler;
+
+    public function __construct(RequestHandlerInterface $businessLogicHandler)
     {
-        parent::__construct();
-
-        $this->setResponsePrototype($responsePrototype);
-        $this->router = $router;
-
-        $this->pipeMiddlewares();
+        $this->businessLogicHandler = $businessLogicHandler;
+        $this->middlewareStack = new MiddlewareStack();
     }
 
-    protected function pipeMiddlewares()
+    protected function main(): ResponseInterface
     {
-        $this->pipe(new DispatcherMiddleware($this->router));
+        return $this->middlewareStack->process($this->request, $this->businessLogicHandler);
     }
 }

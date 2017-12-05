@@ -2,7 +2,7 @@
 
 use Psr\Http\Message\ResponseInterface;
 
-interface IView
+interface ViewInterface
 {
     /**
      * @param array $data

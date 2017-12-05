@@ -16,13 +16,16 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "http-interop/http-middleware": "^0.4.1",
-        "php": ">=7.0.0",
-        "zendframework/zend-stratigility": "^2.0.1"
+        "php": ">=7.1.0",
+        "litphp/nimo": "^0.4",
+        "http-interop/http-factory": "^0.3.0"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.7.x-dev"
+            "dev-master": "0.8.x-dev"
         }
+    },
+    "require-dev": {
+        "zendframework/zend-diactoros": "^1.6"
     }
 }
