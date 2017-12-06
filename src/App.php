@@ -2,15 +2,15 @@
 
 use Interop\Http\Server\RequestHandlerInterface;
 use Nimo\AbstractHandler;
-use Nimo\MiddlewareStack;
+use Nimo\MiddlewarePipe;
 use Psr\Http\Message\ResponseInterface;
 
 class App extends AbstractHandler
 {
     /**
-     * @var MiddlewareStack
+     * @var MiddlewarePipe
      */
-    protected $middlewareStack;
+    protected $middlewarePipe;
     /**
      * @var RequestHandlerInterface
      */
@@ -19,11 +19,11 @@ class App extends AbstractHandler
     public function __construct(RequestHandlerInterface $businessLogicHandler)
     {
         $this->businessLogicHandler = $businessLogicHandler;
-        $this->middlewareStack = new MiddlewareStack();
+        $this->middlewarePipe = new MiddlewarePipe();
     }
 
     protected function main(): ResponseInterface
     {
-        return $this->middlewareStack->process($this->request, $this->businessLogicHandler);
+        return $this->middlewarePipe->process($this->request, $this->businessLogicHandler);
     }
 }
