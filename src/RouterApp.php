@@ -1,5 +1,6 @@
 <?php namespace Lit\Core;
 
+use Interop\Http\Server\MiddlewareInterface;
 use Lit\Core\Interfaces\RouterInterface;
 
 class RouterApp extends App
@@ -17,9 +18,9 @@ class RouterApp extends App
      * App constructor.
      * @param RouterInterface $router
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router, MiddlewareInterface $middleware = null)
     {
-        parent::__construct(new DispatcherHandler($router));
+        parent::__construct(new DispatcherHandler($router), $middleware);
 
         $this->router = $router;
     }

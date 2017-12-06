@@ -1,5 +1,6 @@
 <?php namespace Lit\Core;
 
+use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use Nimo\AbstractHandler;
 use Nimo\MiddlewarePipe;
@@ -16,10 +17,20 @@ class App extends AbstractHandler
      */
     protected $businessLogicHandler;
 
-    public function __construct(RequestHandlerInterface $businessLogicHandler)
+    public function __construct(RequestHandlerInterface $businessLogicHandler, MiddlewareInterface $middleware = null)
     {
         $this->businessLogicHandler = $businessLogicHandler;
-        $this->middlewarePipe = new MiddlewarePipe();
+        $this->middlewarePipe = $middleware
+            ? ($middleware instanceof MiddlewarePipe ? $middleware : (new MiddlewarePipe())->append($middleware))
+            : new MiddlewarePipe();
+    }
+
+    /**
+     * @return MiddlewarePipe
+     */
+    public function getMiddlewarePipe(): MiddlewarePipe
+    {
+        return $this->middlewarePipe;
     }
 
     protected function main(): ResponseInterface
