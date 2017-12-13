@@ -2,6 +2,7 @@
 
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
+use Lit\Core\Interfaces\ThrowableResponseInterface;
 use Nimo\AbstractHandler;
 use Nimo\MiddlewarePipe;
 use Psr\Http\Message\ResponseInterface;
@@ -35,6 +36,15 @@ class App extends AbstractHandler
 
     protected function main(): ResponseInterface
     {
-        return $this->middlewarePipe->process($this->request, $this->businessLogicHandler);
+        try {
+            return $this->middlewarePipe->process($this->request, $this->businessLogicHandler);
+        } catch (ThrowableResponseInterface $e) {
+            return $e->getResponse();
+        }
+    }
+
+    public function throwResponse(ResponseInterface $response): void
+    {
+        throw ThrowableResponse::of($response);
     }
 }
