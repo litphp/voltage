@@ -42,9 +42,4 @@ class App extends AbstractHandler
             return $e->getResponse();
         }
     }
-
-    public static function throwResponse(ResponseInterface $response): void
-    {
-        throw ThrowableResponse::of($response);
-    }
 }
