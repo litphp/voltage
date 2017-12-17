@@ -14,7 +14,7 @@ class JsonView implements ViewInterface
      * @param array $data
      * @return ResponseInterface
      */
-    public function render(array $data = [])
+    public function render(array $data = []): ResponseInterface
     {
         $this->getEmptyBody()->write(json_encode($data, $this->jsonOption));
 

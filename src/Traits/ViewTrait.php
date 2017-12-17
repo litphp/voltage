@@ -12,13 +12,10 @@ trait ViewTrait
     /**
      *
      * @param ResponseInterface $response
-     * @return $this
      */
-    public function setResponse(ResponseInterface $response)
+    public function setResponse(ResponseInterface $response): void
     {
         $this->response = $response;
-
-        return $this;
     }
 
     /**

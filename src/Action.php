@@ -12,6 +12,10 @@ abstract class Action extends AbstractHandler
      */
     protected $responseFactory;
 
+    /**
+     * @param ResponseInterface $response
+     * @throws ThrowableResponse
+     */
     public static function throwResponse(ResponseInterface $response): void
     {
         throw ThrowableResponse::of($response);
@@ -23,7 +27,9 @@ abstract class Action extends AbstractHandler
      */
     protected function attachView(ViewInterface $view)
     {
-        return $view->setResponse($this->responseFactory->createResponse());
+        $view->setResponse($this->responseFactory->createResponse());
+
+        return $view;
     }
 
     protected function json(): JsonView

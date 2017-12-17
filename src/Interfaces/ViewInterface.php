@@ -8,11 +8,10 @@ interface ViewInterface
      * @param array $data
      * @return ResponseInterface
      */
-    public function render(array $data = []);
+    public function render(array $data = []): ResponseInterface;
 
     /**
      * @param ResponseInterface $response
-     * @return $this
      */
-    public function setResponse(ResponseInterface $response);
+    public function setResponse(ResponseInterface $response): void;
 }
