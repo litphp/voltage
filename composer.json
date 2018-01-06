@@ -10,8 +10,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "Lit\\Core\\": "src"
-        }
+            "Lit\\Core\\": ""
+        },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
     },
     "prefer-stable": true,
     "require": {
