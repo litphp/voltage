@@ -1,7 +1,7 @@
 <?php namespace Lit\Core;
 
-use Interop\Http\Server\MiddlewareInterface;
-use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Lit\Core\Interfaces\ThrowableResponseInterface;
 use Lit\Nimo\AbstractHandler;
 use Lit\Nimo\MiddlewarePipe;

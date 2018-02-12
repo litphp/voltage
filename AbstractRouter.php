@@ -1,6 +1,6 @@
 <?php namespace Lit\Core;
 
-use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Lit\Core\Interfaces\RouterInterface;
 use Lit\Core\Interfaces\RouterStubResolverInterface;
 use Psr\Http\Message\ServerRequestInterface;

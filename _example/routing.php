@@ -1,7 +1,7 @@
 <?php
 
 use Interop\Http\Factory\ResponseFactoryInterface;
-use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Lit\Core\Action;
 use Lit\Core\BasicRouter;
 use Lit\Core\Interfaces\RouterStubResolverInterface;
