@@ -1,0 +1,14 @@
+checks:
+    php:
+        code_rating: true
+        duplication: true
+tools:
+    php_code_sniffer:
+        config:
+            standard: "PSR2"
+filter:
+    excluded_paths:
+        - Tests/*
+build:
+    environment:
+        php: 7.1
