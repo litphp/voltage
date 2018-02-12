@@ -6,7 +6,7 @@ use Lit\Core\Action;
 use Lit\Core\BasicRouter;
 use Lit\Core\Interfaces\RouterStubResolverInterface;
 use Lit\Core\RouterApp;
-use Nimo\Handlers\FixedResponseHandler;
+use Lit\Nimo\Handlers\FixedResponseHandler;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\SapiEmitter;
