@@ -3,8 +3,8 @@
 use Interop\Http\Server\MiddlewareInterface;
 use Interop\Http\Server\RequestHandlerInterface;
 use Lit\Core\Interfaces\ThrowableResponseInterface;
-use Nimo\AbstractHandler;
-use Nimo\MiddlewarePipe;
+use Lit\Nimo\AbstractHandler;
+use Lit\Nimo\MiddlewarePipe;
 use Psr\Http\Message\ResponseInterface;
 
 class App extends AbstractHandler

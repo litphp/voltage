@@ -2,7 +2,7 @@
 
 use Interop\Http\Factory\ResponseFactoryInterface;
 use Lit\Core\Interfaces\ViewInterface;
-use Nimo\AbstractHandler;
+use Lit\Nimo\AbstractHandler;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class Action extends AbstractHandler

@@ -1,7 +1,7 @@
 <?php namespace Lit\Core;
 
 use Lit\Core\Interfaces\RouterInterface;
-use Nimo\AbstractHandler;
+use Lit\Nimo\AbstractHandler;
 use Psr\Http\Message\ResponseInterface;
 
 class DispatcherHandler extends AbstractHandler
