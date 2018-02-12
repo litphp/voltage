@@ -10,5 +10,10 @@ filter:
     excluded_paths:
         - Tests/*
 build:
-    environment:
-        php: 7.1
+    nodes:
+        my-tests:
+            tests:
+                override:
+                    - php-scrutinizer-run
+            environment:
+                php: 7.1
