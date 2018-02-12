@@ -1,6 +1,6 @@
 <?php namespace Lit\Core;
 
-use Interop\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Lit\Core\Interfaces\RouterInterface;
 
 class RouterApp extends App

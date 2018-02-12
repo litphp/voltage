@@ -1,6 +1,6 @@
 <?php namespace Lit\Core\Interfaces;
 
-use Interop\Http\Server\RequestHandlerInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 interface RouterStubResolverInterface
 {
