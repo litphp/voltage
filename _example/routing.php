@@ -9,9 +9,10 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\SapiEmitter;
 use Zend\Diactoros\ServerRequestFactory;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
+// @codeCoverageIgnoreStart
 
 /** @noinspection PhpIncludeInspection */
 require(__DIR__ . '/../vendor/autoload.php');
@@ -61,3 +62,5 @@ $request = ServerRequestFactory::fromGlobals();
 $response = $app->handle($request);
 $emitter = new SapiEmitter();
 $emitter->emit($response);
+
+// @codeCoverageIgnoreEnd
