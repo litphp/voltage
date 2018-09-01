@@ -29,6 +29,7 @@
         }
     },
     "require-dev": {
-        "zendframework/zend-diactoros": "^1.6"
+        "zendframework/zend-diactoros": "^1.8",
+        "zendframework/zend-httphandlerrunner": "^1.0"
     }
 }
