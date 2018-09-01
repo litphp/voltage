@@ -1,18 +1,19 @@
 <?php
 
-use Interop\Http\Factory\ResponseFactoryInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Lit\Core\Action;
 use Lit\Core\BasicRouter;
 use Lit\Core\Interfaces\RouterStubResolverInterface;
 use Lit\Core\RouterApp;
 use Lit\Nimo\Handlers\FixedResponseHandler;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\SapiEmitter;
 use Zend\Diactoros\ServerRequestFactory;
 
 
+/** @noinspection PhpIncludeInspection */
 require(__DIR__ . '/../vendor/autoload.php');
 
 class NotFoundAction extends Action
@@ -21,11 +22,10 @@ class NotFoundAction extends Action
     {
         $factory = new class implements ResponseFactoryInterface
         {
-            public function createResponse($code = 200)
+            public function createResponse(int $code = 200, string $reasonPhrase = ''): ResponseInterface
             {
                 return (new Response())->withStatus($code);
             }
-
         };
         $this->responseFactory = $factory;
     }
