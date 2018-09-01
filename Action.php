@@ -1,8 +1,8 @@
 <?php namespace Lit\Core;
 
-use Interop\Http\Factory\ResponseFactoryInterface;
 use Lit\Core\Interfaces\ViewInterface;
 use Lit\Nimo\AbstractHandler;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class Action extends AbstractHandler

@@ -1,13 +1,14 @@
 <?php
 
-use Interop\Http\Factory\ResponseFactoryInterface;
 use Lit\Core\Action;
 use Lit\Core\App;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\SapiEmitter;
 use Zend\Diactoros\ServerRequestFactory;
 
+/** @noinspection PhpIncludeInspection */
 require(__DIR__ . '/../vendor/autoload.php');
 
 class HelloAction extends Action
@@ -16,7 +17,7 @@ class HelloAction extends Action
     {
         $factory = new class implements ResponseFactoryInterface
         {
-            public function createResponse($code = 200)
+            public function createResponse(int $code = 200, string $reasonPhrase = ''): ResponseInterface
             {
                 return (new Response())->withStatus($code);
             }

@@ -18,9 +18,10 @@
     },
     "prefer-stable": true,
     "require": {
-        "php": ">=7.1.0",
+        "php": "^7.1",
+        "ext-json": "*",
         "litphp/nimo": "^0.8@dev",
-        "http-interop/http-factory": "^0.3.0"
+        "psr/http-factory": "^1.0"
     },
     "extra": {
         "branch-alias": {
