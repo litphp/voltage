@@ -30,6 +30,7 @@
     },
     "require-dev": {
         "zendframework/zend-diactoros": "^1.8",
-        "zendframework/zend-httphandlerrunner": "^1.0"
+        "zendframework/zend-httphandlerrunner": "^1.0",
+        "phpunit/phpunit": "^6.5"
     }
 }
