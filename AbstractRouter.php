@@ -1,4 +1,8 @@
-<?php namespace Lit\Core;
+<?php
+
+declare(strict_types=1);
+
+namespace Lit\Core;
 
 use Psr\Http\Server\RequestHandlerInterface;
 use Lit\Core\Interfaces\RouterInterface;

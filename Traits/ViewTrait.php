@@ -1,4 +1,8 @@
-<?php namespace Lit\Core\Traits;
+<?php
+
+declare(strict_types=1);
+
+namespace Lit\Core\Traits;
 
 use Psr\Http\Message\ResponseInterface;
 
