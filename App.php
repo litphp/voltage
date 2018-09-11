@@ -1,11 +1,15 @@
-<?php namespace Lit\Core;
+<?php
 
-use Psr\Http\Server\MiddlewareInterface;
-use Psr\Http\Server\RequestHandlerInterface;
+declare(strict_types=1);
+
+namespace Lit\Core;
+
 use Lit\Core\Interfaces\ThrowableResponseInterface;
 use Lit\Nimo\AbstractHandler;
 use Lit\Nimo\MiddlewarePipe;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class App extends AbstractHandler
 {
@@ -24,6 +28,13 @@ class App extends AbstractHandler
         $this->middlewarePipe = $middleware
             ? ($middleware instanceof MiddlewarePipe ? $middleware : (new MiddlewarePipe())->append($middleware))
             : new MiddlewarePipe();
+
+        $this->setup();
+    }
+
+    protected function setup()
+    {
+
     }
 
     /**

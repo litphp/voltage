@@ -8,7 +8,7 @@ use Lit\Core\Interfaces\RouterInterface;
 use Lit\Nimo\AbstractHandler;
 use Psr\Http\Message\ResponseInterface;
 
-class DispatcherHandler extends AbstractHandler
+class RouterDispatchHandler extends AbstractHandler
 {
     /**
      * @var RouterInterface
@@ -16,7 +16,6 @@ class DispatcherHandler extends AbstractHandler
     protected $router;
 
     /**
-     * DispatcherMiddleware constructor.
      * @param RouterInterface $router
      */
     public function __construct(RouterInterface $router)

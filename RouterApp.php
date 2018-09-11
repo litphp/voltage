@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Lit\Core;
 
-use Psr\Http\Server\MiddlewareInterface;
 use Lit\Core\Interfaces\RouterInterface;
+use Psr\Http\Server\MiddlewareInterface;
 
 class RouterApp extends App
 {
     /**
-     * @var DispatcherHandler
+     * @var RouterDispatchHandler
      */
     protected $dispatcherHandler;
     /**
@@ -24,7 +24,7 @@ class RouterApp extends App
      */
     public function __construct(RouterInterface $router, MiddlewareInterface $middleware = null)
     {
-        parent::__construct(new DispatcherHandler($router), $middleware);
+        parent::__construct(new RouterDispatchHandler($router), $middleware);
 
         $this->router = $router;
     }
