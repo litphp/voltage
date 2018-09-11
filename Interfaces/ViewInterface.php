@@ -1,4 +1,8 @@
-<?php namespace Lit\Core\Interfaces;
+<?php
+
+declare(strict_types=1);
+
+namespace Lit\Core\Interfaces;
 
 use Psr\Http\Message\ResponseInterface;
 

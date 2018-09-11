@@ -1,4 +1,8 @@
-<?php namespace Lit\Core;
+<?php
+
+declare(strict_types=1);
+
+namespace Lit\Core;
 
 use Lit\Core\Interfaces\RouterInterface;
 use Lit\Nimo\AbstractHandler;
