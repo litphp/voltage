@@ -1,9 +1,10 @@
 <?php
 
 use Lit\Core\Action;
+use Lit\Core\App;
 use Lit\Core\BasicRouter;
 use Lit\Core\Interfaces\RouterStubResolverInterface;
-use Lit\Core\RouterApp;
+use Lit\Core\RouterDispatchHandler;
 use Lit\Nimo\Handlers\FixedResponseHandler;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -56,7 +57,7 @@ $testJson = new Response\JsonResponse([
     'nil' => null,
 ]);
 $router->get('/test.json', FixedResponseHandler::wrap($testJson));
-$app = new RouterApp($router);
+$app = new App(new RouterDispatchHandler($router));
 
 $request = ServerRequestFactory::fromGlobals();
 $response = $app->handle($request);

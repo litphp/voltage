@@ -33,5 +33,4 @@ class ThrowableResponse extends \Exception implements ThrowableResponseInterface
     {
         return $this->response;
     }
-
 }
