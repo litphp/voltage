@@ -8,7 +8,8 @@ tools:
             standard: "PSR2"
 filter:
     excluded_paths:
-        - Tests/*
+        - "Tests/*"
+        - "_example/*"
 build:
     nodes:
         my-tests:
