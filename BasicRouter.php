@@ -19,7 +19,7 @@ class BasicRouter extends AbstractRouter
      * @param mixed $notFound stub for notFoundMiddleware
      * @param mixed $methodNotAllowed stub for methodNotAllowedMiddleware
      */
-    public function __construct(RouterStubResolverInterface $stubResolver, $notFound, $methodNotAllowed = null)
+    public function __construct(RouterStubResolverInterface $stubResolver, $notFound = null, $methodNotAllowed = null)
     {
         parent::__construct($stubResolver, $notFound);
         
