@@ -3,12 +3,11 @@
 use Lit\Core\Action;
 use Lit\Core\App;
 use Lit\Core\BasicRouter;
-use Lit\Core\Interfaces\RouterStubResolverInterface;
 use Lit\Core\RouterDispatchHandler;
+use Lit\Core\RouteStubResolver;
 use Lit\Nimo\Handlers\FixedResponseHandler;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
@@ -42,13 +41,7 @@ class NotFoundAction extends Action
     }
 }
 
-$stubResolver = new class implements RouterStubResolverInterface
-{
-    public function resolve($stub): RequestHandlerInterface
-    {
-        return $stub;
-    }
-};
+$stubResolver = new RouteStubResolver();
 $router = new BasicRouter($stubResolver, new NotFoundAction);
 
 $testJson = new Response\JsonResponse([

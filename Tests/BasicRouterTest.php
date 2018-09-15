@@ -3,7 +3,7 @@
 namespace Lit\Core\Tests;
 
 use Lit\Core\BasicRouter;
-use Lit\Core\Interfaces\RouterStubResolverInterface;
+use Lit\Core\RouteStubResolver;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\ServerRequestFactory;
@@ -12,14 +12,7 @@ class BasicRouterTest extends TestCase
 {
     public function testSmoke()
     {
-        $stubResolver = new class implements RouterStubResolverInterface
-        {
-            public function resolve($stub): RequestHandlerInterface
-            {
-                return $stub;
-            }
-
-        };
+        $stubResolver = new RouteStubResolver();
 
         $notFound = self::createMock(RequestHandlerInterface::class);
         $actions = [];

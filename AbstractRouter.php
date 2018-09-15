@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Lit\Core;
 
-use Psr\Http\Server\RequestHandlerInterface;
 use Lit\Core\Interfaces\RouterInterface;
 use Lit\Core\Interfaces\RouterStubResolverInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 abstract class AbstractRouter implements RouterInterface
 {
@@ -24,7 +24,7 @@ abstract class AbstractRouter implements RouterInterface
      * @param RouterStubResolverInterface $stubResolver
      * @param RequestHandlerInterface $notFound
      */
-    public function __construct(RouterStubResolverInterface $stubResolver, $notFound)
+    public function __construct(RouterStubResolverInterface $stubResolver, $notFound = null)
     {
         $this->notFound = $notFound;
         $this->stubResolver = $stubResolver;
@@ -34,7 +34,7 @@ abstract class AbstractRouter implements RouterInterface
     {
         $stub = $this->findStub($request);
 
-        return $stub ? $this->resolve($stub) : $this->resolve($this->notFound);
+        return $this->resolve($stub ?: $this->notFound);
     }
 
     /**
