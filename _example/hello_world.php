@@ -1,10 +1,9 @@
 <?php
 
+use Http\Factory\Diactoros\ResponseFactory;
 use Lit\Core\Action;
 use Lit\Core\App;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
@@ -17,15 +16,7 @@ class HelloAction extends Action
 {
     public function __construct()
     {
-        $factory = new class implements ResponseFactoryInterface
-        {
-            public function createResponse(int $code = 200, string $reasonPhrase = ''): ResponseInterface
-            {
-                return (new Response())->withStatus($code);
-            }
-
-        };
-        $this->responseFactory = $factory;
+        $this->responseFactory = new ResponseFactory();
     }
 
     protected function main(): ResponseInterface
