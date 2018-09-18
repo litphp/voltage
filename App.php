@@ -34,7 +34,6 @@ class App extends AbstractHandler
 
     protected function setup()
     {
-
     }
 
     /**
