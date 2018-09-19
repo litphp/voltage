@@ -48,6 +48,11 @@ abstract class AbstractRouter implements RouterInterface
         return $this->stubResolver->resolve($stub);
     }
 
+    public function makeDispatcher(): RequestHandlerInterface
+    {
+        return new RouterDispatchHandler($this);
+    }
+
     /**
      * @param string $path
      * @return string
