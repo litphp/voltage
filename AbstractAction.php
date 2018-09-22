@@ -9,7 +9,7 @@ use Lit\Nimo\AbstractHandler;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
-abstract class Action extends AbstractHandler
+abstract class AbstractAction extends AbstractHandler
 {
     /**
      * @var ResponseFactoryInterface
@@ -20,7 +20,7 @@ abstract class Action extends AbstractHandler
      * @param ResponseInterface $response
      * @throws ThrowableResponse
      */
-    public static function throwResponse(ResponseInterface $response): void
+    protected static function throwResponse(ResponseInterface $response): void
     {
         throw ThrowableResponse::of($response);
     }

@@ -1,7 +1,7 @@
 <?php
 
 use Http\Factory\Diactoros\ResponseFactory;
-use Lit\Core\Action;
+use Lit\Core\AbstractAction;
 use Lit\Core\App;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\ServerRequestFactory;
@@ -12,7 +12,7 @@ use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 /** @noinspection PhpIncludeInspection */
 require(__DIR__ . '/../vendor/autoload.php');
 
-class HelloAction extends Action
+class HelloAbstractAction extends AbstractAction
 {
     public function __construct()
     {
@@ -29,7 +29,7 @@ class HelloAction extends Action
     }
 }
 
-$app = new App(new HelloAction());
+$app = new App(new HelloAbstractAction());
 
 $request = ServerRequestFactory::fromGlobals();
 $response = $app->handle($request);
