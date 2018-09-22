@@ -1,7 +1,7 @@
 <?php
 
 use Http\Factory\Diactoros\ResponseFactory;
-use Lit\Core\Action;
+use Lit\Core\AbstractAction;
 use Lit\Core\App;
 use Lit\Core\BasicRouter;
 use Lit\Core\RouteStubResolver;
@@ -16,7 +16,7 @@ use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 /** @noinspection PhpIncludeInspection */
 require(__DIR__ . '/../vendor/autoload.php');
 
-class NotFoundAction extends Action
+class NotFoundAbstractAction extends AbstractAction
 {
     public function __construct()
     {
@@ -34,7 +34,7 @@ class NotFoundAction extends Action
 }
 
 $stubResolver = new RouteStubResolver();
-$router = new BasicRouter($stubResolver, new NotFoundAction);
+$router = new BasicRouter($stubResolver, new NotFoundAbstractAction);
 
 $testJson = new Response\JsonResponse([
     'test.json' => 'should be this',

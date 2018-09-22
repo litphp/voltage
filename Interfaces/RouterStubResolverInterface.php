@@ -9,7 +9,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 interface RouterStubResolverInterface
 {
     /**
-     * resolve the stub
+     * Resolve the stub and return a RequestHandler
+     *
      * @param $stub
      * @return RequestHandlerInterface
      */
