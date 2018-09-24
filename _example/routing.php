@@ -16,7 +16,7 @@ use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 /** @noinspection PhpIncludeInspection */
 require(__DIR__ . '/../vendor/autoload.php');
 
-class NotFoundAbstractAction extends AbstractAction
+class NotFoundAction extends AbstractAction
 {
     public function __construct()
     {
@@ -34,7 +34,7 @@ class NotFoundAbstractAction extends AbstractAction
 }
 
 $stubResolver = new RouteStubResolver();
-$router = new BasicRouter($stubResolver, new NotFoundAbstractAction);
+$router = new BasicRouter($stubResolver, new NotFoundAction);
 
 $testJson = new Response\JsonResponse([
     'test.json' => 'should be this',
