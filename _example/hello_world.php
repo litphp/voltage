@@ -12,7 +12,7 @@ use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 /** @noinspection PhpIncludeInspection */
 require(__DIR__ . '/../vendor/autoload.php');
 
-class HelloAbstractAction extends AbstractAction
+class HelloAction extends AbstractAction
 {
     public function __construct()
     {
@@ -29,7 +29,7 @@ class HelloAbstractAction extends AbstractAction
     }
 }
 
-$app = new App(new HelloAbstractAction());
+$app = new App(new HelloAction());
 
 $request = ServerRequestFactory::fromGlobals();
 $response = $app->handle($request);
