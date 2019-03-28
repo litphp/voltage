@@ -29,7 +29,7 @@ class HelloAction extends AbstractAction
     }
 }
 
-$app = new App(new HelloAction());
+$app = new App(new HelloAbstractAction());
 
 $request = ServerRequestFactory::fromGlobals();
 $response = $app->handle($request);
