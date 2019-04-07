@@ -28,12 +28,6 @@ class App extends AbstractHandler
         $this->middlewarePipe = $middleware
             ? ($middleware instanceof MiddlewarePipe ? $middleware : (new MiddlewarePipe())->append($middleware))
             : new MiddlewarePipe();
-
-        $this->setup();
-    }
-
-    protected function setup()
-    {
     }
 
     /**
