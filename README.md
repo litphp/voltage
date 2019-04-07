@@ -1,11 +1,7 @@
-Lit
-===
+Voltage
+=======
 
-> Minimal core for Lit Framework
-
-### Features
-
-TBD
+> Fundamental application structure for Lit
 
 ### Examples
 
@@ -13,10 +9,3 @@ TBD
 php -S localhost:8080 example/hello_world.php
 
 php -S localhost:8080 example/routing.php
-
-```
-
-### Todo
-
-- [ ] Tests
-- [ ] Documents
