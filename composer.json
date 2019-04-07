@@ -1,7 +1,7 @@
 {
     "name": "litphp/voltage",
-    "description": "yet another PHP Framework with extremely tiny codebase",
-    "license": "MIT",
+    "description": "Fundamental application structure for Lit",
+    "license": "ISC",
     "authors": [
         {
             "name": "McFog Wang",
