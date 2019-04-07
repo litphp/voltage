@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Lit\Core;
+namespace Lit\Voltage;
 
-use Lit\Core\Interfaces\RouterStubResolverInterface;
+use Lit\Voltage\Interfaces\RouterStubResolverInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
 class RouteStubResolver implements RouterStubResolverInterface

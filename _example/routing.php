@@ -1,10 +1,10 @@
 <?php
 
 use Http\Factory\Diactoros\ResponseFactory;
-use Lit\Core\AbstractAction;
-use Lit\Core\App;
-use Lit\Core\BasicRouter;
-use Lit\Core\RouteStubResolver;
+use Lit\Voltage\AbstractAction;
+use Lit\Voltage\App;
+use Lit\Voltage\BasicRouter;
+use Lit\Voltage\RouteStubResolver;
 use Lit\Nimo\Handlers\FixedResponseHandler;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response;

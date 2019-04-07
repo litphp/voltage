@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Lit\Core;
+namespace Lit\Voltage;
 
 use Psr\Http\Message\ResponseInterface;
 

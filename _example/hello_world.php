@@ -1,8 +1,8 @@
 <?php
 
 use Http\Factory\Diactoros\ResponseFactory;
-use Lit\Core\AbstractAction;
-use Lit\Core\App;
+use Lit\Voltage\AbstractAction;
+use Lit\Voltage\App;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;

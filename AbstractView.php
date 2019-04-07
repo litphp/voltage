@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Lit\Core;
+namespace Lit\Voltage;
 
-use Lit\Core\Interfaces\ViewInterface;
-use Lit\Core\Traits\ViewTrait;
+use Lit\Voltage\Interfaces\ViewInterface;
+use Lit\Voltage\Traits\ViewTrait;
 
 abstract class AbstractView implements ViewInterface
 {

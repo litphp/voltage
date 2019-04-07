@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Lit\Core;
+namespace Lit\Voltage;
 
-use Lit\Core\Interfaces\ThrowableResponseInterface;
+use Lit\Voltage\Interfaces\ThrowableResponseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 

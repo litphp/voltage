@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Lit\Core;
+namespace Lit\Voltage;
 
-use Lit\Core\Interfaces\ViewInterface;
+use Lit\Voltage\Interfaces\ViewInterface;
 use Lit\Nimo\AbstractHandler;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

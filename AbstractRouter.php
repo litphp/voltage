@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Lit\Core;
+namespace Lit\Voltage;
 
-use Lit\Core\Interfaces\RouterInterface;
-use Lit\Core\Interfaces\RouterStubResolverInterface;
+use Lit\Voltage\Interfaces\RouterInterface;
+use Lit\Voltage\Interfaces\RouterStubResolverInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 

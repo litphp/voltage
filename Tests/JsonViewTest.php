@@ -1,8 +1,8 @@
 <?php
 
-namespace Lit\Core\Tests;
+namespace Lit\Voltage\Tests;
 
-use Lit\Core\JsonView;
+use Lit\Voltage\JsonView;
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\Response;
 

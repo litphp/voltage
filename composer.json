@@ -10,7 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Lit\\Core\\": ""
+            "Lit\\Voltage\\": ""
         },
         "exclude-from-classmap": [
             "/Tests/"

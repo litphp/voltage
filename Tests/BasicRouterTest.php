@@ -1,9 +1,9 @@
 <?php
 
-namespace Lit\Core\Tests;
+namespace Lit\Voltage\Tests;
 
-use Lit\Core\BasicRouter;
-use Lit\Core\RouteStubResolver;
+use Lit\Voltage\BasicRouter;
+use Lit\Voltage\RouteStubResolver;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
 use Zend\Diactoros\ServerRequestFactory;
