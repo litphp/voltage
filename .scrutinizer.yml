@@ -16,5 +16,6 @@ build:
             tests:
                 override:
                     - php-scrutinizer-run
+                    - phpcs-run
             environment:
                 php: 7.1
