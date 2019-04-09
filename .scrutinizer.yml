@@ -1,21 +1,21 @@
 checks:
-    php:
-        code_rating: true
-        duplication: true
+  php:
+    code_rating: true
+    duplication: true
 tools:
-    php_code_sniffer:
-        config:
-            standard: "PSR2"
+  php_code_sniffer:
+    config:
+      standard: "PSR2"
 filter:
-    excluded_paths:
-        - "Tests/*"
-        - "_example/*"
+  excluded_paths:
+    - "Tests/*"
+    - "_example/*"
 build:
-    nodes:
-        my-tests:
-            tests:
-                override:
-                    - php-scrutinizer-run
-                    - phpcs-run
-            environment:
-                php: 7.1
+  nodes:
+    my-tests:
+      tests:
+        override:
+          - php-scrutinizer-run
+          - phpcs-run
+      environment:
+        php: 7.1

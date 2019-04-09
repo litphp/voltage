@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Lit\Voltage;
 
-use Lit\Voltage\Interfaces\ThrowableResponseInterface;
 use Lit\Nimo\AbstractHandler;
 use Lit\Nimo\MiddlewarePipe;
+use Lit\Voltage\Interfaces\ThrowableResponseInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;

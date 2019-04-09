@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Lit\Voltage;
 
-use Lit\Voltage\Interfaces\ViewInterface;
 use Lit\Nimo\AbstractHandler;
+use Lit\Voltage\Interfaces\ViewInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 

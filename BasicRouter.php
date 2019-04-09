@@ -22,7 +22,7 @@ class BasicRouter extends AbstractRouter
     public function __construct(RouterStubResolverInterface $stubResolver, $notFound = null, $methodNotAllowed = null)
     {
         parent::__construct($stubResolver, $notFound);
-        
+
         $this->methodNotAllowed = $methodNotAllowed ?: $notFound;
     }
 
