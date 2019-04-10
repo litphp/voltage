@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class JsonView extends AbstractView
 {
+    const JSON_ROOT = self::class;
     protected $jsonOption = 0;
 
     /**
@@ -16,7 +17,8 @@ class JsonView extends AbstractView
      */
     public function render(array $data = []): ResponseInterface
     {
-        $this->getEmptyBody()->write(json_encode($data, $this->jsonOption));
+        $jsonData = $data[self::JSON_ROOT] ?? $data;
+        $this->getEmptyBody()->write(json_encode($jsonData, $this->jsonOption));
 
         return $this->response
             ->withHeader('Content-Type', 'application/json');

@@ -22,14 +22,15 @@ class JsonViewTest extends TestCase
 
     public function testRender()
     {
-        $response = new Response();
-        $view = new JsonView();
-        $view->setResponse($response);
+        $this->assertRenderAsExpected($this->testData, json_encode($this->testData));
 
-        $actualResponse = $view->render($this->testData);
-        $actualResponse->getBody()->rewind();
+        $this->assertRenderAsExpected([
+            JsonView::JSON_ROOT => $this->testData,
+        ], json_encode($this->testData));
 
-        self::assertEquals(json_encode($this->testData), $actualResponse->getBody()->getContents());
+        $this->assertRenderAsExpected([
+            JsonView::JSON_ROOT => false,
+        ], json_encode(false));
     }
 
     public function testSetOption()
@@ -45,5 +46,21 @@ class JsonViewTest extends TestCase
 
         self::assertEquals(json_encode($this->testData, JSON_PRETTY_PRINT), $actualResponse->getBody()->getContents());
         self::assertEquals(JSON_PRETTY_PRINT, $view->getJsonOption());
+    }
+
+    /**
+     * @param array $renderData
+     * @param $expectedBodyContent
+     */
+    protected function assertRenderAsExpected(array $renderData, $expectedBodyContent): void
+    {
+        $response = new Response();
+        $view = new JsonView();
+        $view->setResponse($response);
+
+        $actualResponse = $view->render($renderData);
+        $actualResponse->getBody()->rewind();
+
+        self::assertEquals($expectedBodyContent, $actualResponse->getBody()->getContents());
     }
 }
