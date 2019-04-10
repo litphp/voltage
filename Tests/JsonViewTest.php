@@ -48,6 +48,21 @@ class JsonViewTest extends TestCase
         self::assertEquals(JSON_PRETTY_PRINT, $view->getJsonOption());
     }
 
+    public function testRenderJson()
+    {
+        $response = new Response();
+        $view = new JsonView();
+        $view->setResponse($response);
+
+        $actualResponse = $view->renderJson(null);
+        $actualResponse->getBody()->rewind();
+
+        self::assertEquals('null', $actualResponse->getBody()->getContents());
+
+
+    }
+
+
     /**
      * @param array $renderData
      * @param $expectedBodyContent

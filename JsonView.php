@@ -17,11 +17,16 @@ class JsonView extends AbstractView
      */
     public function render(array $data = []): ResponseInterface
     {
-        $jsonData = $data[self::JSON_ROOT] ?? $data;
+        $jsonData = array_key_exists(static::JSON_ROOT, $data) ? $data[static::JSON_ROOT] : $data;
         $this->getEmptyBody()->write(json_encode($jsonData, $this->jsonOption));
 
         return $this->response
             ->withHeader('Content-Type', 'application/json');
+    }
+
+    public function renderJson($value): ResponseInterface
+    {
+        return $this->render([static::JSON_ROOT => $value]);
     }
 
     /**
