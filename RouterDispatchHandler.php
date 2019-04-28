@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Lit\Voltage;
 
-use Lit\Nimo\AbstractHandler;
+use Lit\Nimo\Handlers\AbstractHandler;
 use Lit\Voltage\Interfaces\RouterInterface;
 use Psr\Http\Message\ResponseInterface;
 
