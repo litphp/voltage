@@ -16,22 +16,23 @@
       "/Tests/"
     ]
   },
-  "prefer-stable": true,
   "require": {
     "php": "^7.1",
     "ext-json": "*",
-    "litphp/nimo": "^0.9@rc",
+    "litphp/nimo": "^0.9",
     "psr/http-factory": "^1.0"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "0.9.x-dev"
-    }
   },
   "require-dev": {
     "http-interop/http-factory-diactoros": "^1.0",
     "zendframework/zend-diactoros": "^1.8",
     "zendframework/zend-httphandlerrunner": "^1.0",
     "phpunit/phpunit": "^6.5"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.9.x-dev"
+    }
   }
 }
