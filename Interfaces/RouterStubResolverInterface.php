@@ -11,7 +11,7 @@ interface RouterStubResolverInterface
     /**
      * Resolve the stub and return a RequestHandler
      *
-     * @param $stub
+     * @param mixed $stub
      * @return RequestHandlerInterface
      */
     public function resolve($stub): RequestHandlerInterface;
