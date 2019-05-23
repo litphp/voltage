@@ -38,7 +38,8 @@ abstract class AbstractAction extends AbstractHandler
 
     protected function json(): JsonView
     {
-        /** @noinspection PhpIncompatibleReturnTypeInspection */
-        return $this->attachView(new JsonView());
+        /** @var JsonView $view */
+        $view = $this->attachView(new JsonView());
+        return $view;
     }
 }
