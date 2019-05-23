@@ -58,8 +58,6 @@ class JsonViewTest extends TestCase
         $actualResponse->getBody()->rewind();
 
         self::assertEquals('null', $actualResponse->getBody()->getContents());
-
-
     }
 
 
