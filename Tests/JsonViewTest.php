@@ -63,10 +63,11 @@ class JsonViewTest extends TestCase
 
     /**
      * @param array $renderData
-     * @param string $expectedBodyContent
+     * @param string|bool $expectedBodyContent
      */
     protected function assertRenderAsExpected(array $renderData, $expectedBodyContent): void
     {
+        self::assertIsString($expectedBodyContent);
         $response = new Response();
         $view = new JsonView();
         $view->setResponse($response);

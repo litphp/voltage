@@ -18,7 +18,10 @@ class JsonView extends AbstractView
     public function render(array $data = []): ResponseInterface
     {
         $jsonData = array_key_exists(static::JSON_ROOT, $data) ? $data[static::JSON_ROOT] : $data;
-        $this->getEmptyBody()->write(json_encode($jsonData, $this->jsonOption));
+        /** @var string $jsonString */
+        $jsonString = json_encode($jsonData, $this->jsonOption);
+        assert(json_last_error() === JSON_ERROR_NONE);
+        $this->getEmptyBody()->write($jsonString);
 
         return $this->response
             ->withHeader('Content-Type', 'application/json');
