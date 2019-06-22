@@ -1,9 +1,9 @@
 <?php
 
-use Http\Factory\Diactoros\ResponseFactory;
 use Lit\Voltage\AbstractAction;
 use Lit\Voltage\App;
 use Psr\Http\Message\ResponseInterface;
+use Zend\Diactoros\ResponseFactory;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
@@ -29,7 +29,7 @@ class HelloAction extends AbstractAction
     }
 }
 
-$app = new App(new HelloAbstractAction());
+$app = new App(new HelloAction());
 
 $request = ServerRequestFactory::fromGlobals();
 $response = $app->handle($request);

@@ -1,6 +1,5 @@
 <?php
 
-use Http\Factory\Diactoros\ResponseFactory;
 use Lit\Nimo\Handlers\FixedResponseHandler;
 use Lit\Voltage\AbstractAction;
 use Lit\Voltage\App;
@@ -8,6 +7,7 @@ use Lit\Voltage\BasicRouter;
 use Lit\Voltage\RouteStubResolver;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response;
+use Zend\Diactoros\ResponseFactory;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
