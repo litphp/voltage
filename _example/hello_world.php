@@ -10,7 +10,7 @@ use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 // @codeCoverageIgnoreStart
 
 /** @noinspection PhpIncludeInspection */
-require(__DIR__ . '/../vendor/autoload.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class HelloAction extends AbstractAction
 {
