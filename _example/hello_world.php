@@ -8,6 +8,8 @@ use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 // @codeCoverageIgnoreStart
+// phpcs:disable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 /** @noinspection PhpIncludeInspection */
 require_once __DIR__ . '/../vendor/autoload.php';

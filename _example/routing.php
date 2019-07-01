@@ -12,9 +12,11 @@ use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 
 // @codeCoverageIgnoreStart
+// phpcs:disable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 /** @noinspection PhpIncludeInspection */
-require(__DIR__ . '/../vendor/autoload.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 class NotFoundAction extends AbstractAction
 {
@@ -34,7 +36,7 @@ class NotFoundAction extends AbstractAction
 }
 
 $stubResolver = new RouteStubResolver();
-$router = new BasicRouter($stubResolver, new NotFoundAction);
+$router = new BasicRouter($stubResolver, new NotFoundAction());
 
 $testJson = new Response\JsonResponse([
     'test.json' => 'should be this',
