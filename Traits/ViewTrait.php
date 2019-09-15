@@ -6,6 +6,9 @@ namespace Lit\Voltage\Traits;
 
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Implements ViewInterface and provide a helper method getEmptyBody.
+ */
 trait ViewTrait
 {
     /**
@@ -14,8 +17,9 @@ trait ViewTrait
     protected $response;
 
     /**
-     *
-     * @param ResponseInterface $response
+     * @ses \Lit\Voltage\Interfaces\ViewInterface::setResponse
+     * @param ResponseInterface $response Set the response prototype.
+     * @return void
      */
     public function setResponse(ResponseInterface $response): void
     {
@@ -23,10 +27,10 @@ trait ViewTrait
     }
 
     /**
-     * ensure body is empty and writable and return that
+     * Ensure body is empty and writable and return that.
      *
      * @return \Psr\Http\Message\StreamInterface
-     * @throws \RuntimeException
+     * @throws \RuntimeException When the body is not writable or not empty somehow.
      */
     protected function getEmptyBody()
     {

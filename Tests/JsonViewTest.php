@@ -62,8 +62,8 @@ class JsonViewTest extends TestCase
 
 
     /**
-     * @param array $renderData
-     * @param string|bool $expectedBodyContent
+     * @param array          $renderData
+     * @param string|boolean $expectedBodyContent
      */
     protected function assertRenderAsExpected(array $renderData, $expectedBodyContent): void
     {

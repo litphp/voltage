@@ -6,13 +6,20 @@ namespace Lit\Voltage;
 
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * A simple view class doing json_encode for payloads.
+ */
 class JsonView extends AbstractView
 {
     const JSON_ROOT = self::class;
     protected $jsonOption = 0;
 
     /**
-     * @param array $data
+     * {@inheritDoc}
+     *
+     * You may use renderJson which receive any type instead of this.
+     *
+     * @param array $data Payload. If JsonView::JSON_ROOT exist in payload, it will be used instead of whole payload.
      * @return ResponseInterface
      */
     public function render(array $data = []): ResponseInterface
@@ -27,28 +34,32 @@ class JsonView extends AbstractView
             ->withHeader('Content-Type', 'application/json');
     }
 
+    /**
+     * Render method that receives any type of payload.
+     *
+     * @param mixed $value The payload to be outputed.
+     * @return ResponseInterface
+     */
     public function renderJson($value): ResponseInterface
     {
         return $this->render([static::JSON_ROOT => $value]);
     }
 
     /**
-     * @return int
+     * @return integer
      */
-    public function getJsonOption()
+    public function getJsonOption(): int
     {
         return $this->jsonOption;
     }
 
     /**
-     *
-     * @param int $jsonOption
+     * @param integer $jsonOption The new json option.
      * @return $this
      */
-    public function setJsonOption($jsonOption)
+    public function setJsonOption(int $jsonOption)
     {
         $this->jsonOption = $jsonOption;
-
         return $this;
     }
 }

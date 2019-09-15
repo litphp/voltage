@@ -9,6 +9,11 @@ use Lit\Voltage\Interfaces\ViewInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Base class for actions.
+ *
+ * It's strongly recommended to have your own action base class extending this one
+ */
 abstract class AbstractAction extends AbstractHandler
 {
     /**
@@ -17,8 +22,11 @@ abstract class AbstractAction extends AbstractHandler
     protected $responseFactory;
 
     /**
-     * @param ResponseInterface $response
-     * @throws ThrowableResponse
+     * Halt execution and return the given response.
+     *
+     * @param ResponseInterface $response The response to be thrown.
+     * @throws ThrowableResponse Throws a standard exception containing given response.
+     * @return void
      */
     protected static function throwResponse(ResponseInterface $response): void
     {
@@ -26,7 +34,7 @@ abstract class AbstractAction extends AbstractHandler
     }
 
     /**
-     * @param ViewInterface $view
+     * @param ViewInterface $view The view instance to be used with this action.
      * @return ViewInterface
      */
     protected function attachView(ViewInterface $view)
@@ -36,6 +44,9 @@ abstract class AbstractAction extends AbstractHandler
         return $view;
     }
 
+    /**
+     * @return JsonView
+     */
     protected function json(): JsonView
     {
         /** @var JsonView $view */

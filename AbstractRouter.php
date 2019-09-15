@@ -9,6 +9,9 @@ use Lit\Voltage\Interfaces\RouterStubResolverInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * Base class for a typical router implementation
+ */
 abstract class AbstractRouter implements RouterInterface
 {
     /**
@@ -21,8 +24,8 @@ abstract class AbstractRouter implements RouterInterface
     protected $stubResolver;
 
     /**
-     * @param RouterStubResolverInterface $stubResolver
-     * @param RequestHandlerInterface $notFound
+     * @param RouterStubResolverInterface $stubResolver The stub resolver.
+     * @param mixed                       $notFound     Stub to be used when no stub is found.
      */
     public function __construct(RouterStubResolverInterface $stubResolver, $notFound = null)
     {
@@ -38,7 +41,9 @@ abstract class AbstractRouter implements RouterInterface
     }
 
     /**
-     * @param ServerRequestInterface $request
+     * Find a stub for incoming request. The stub will later be resolved by $this->stubResolver
+     *
+     * @param ServerRequestInterface $request The incoming request.
      * @return mixed
      */
     abstract protected function findStub(ServerRequestInterface $request);
@@ -48,13 +53,20 @@ abstract class AbstractRouter implements RouterInterface
         return $this->stubResolver->resolve($stub);
     }
 
+    /**
+     * Create a request handler with this router.
+     *
+     * @return RequestHandlerInterface
+     */
     public function makeDispatcher(): RequestHandlerInterface
     {
         return new RouterDispatchHandler($this);
     }
 
     /**
-     * @param string $path
+     * Prepend slash to a path if there isn't leading slash
+     *
+     * @param string $path The uri path.
      * @return string
      */
     public static function autoPrependSlash(string $path): string

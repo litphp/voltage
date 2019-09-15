@@ -11,6 +11,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+/**
+ * App is a complete PSR-15 application, including a middleware pipe and a concrete business handler.
+ */
 class App extends AbstractHandler
 {
     /**
@@ -22,6 +25,13 @@ class App extends AbstractHandler
      */
     protected $businessLogicHandler;
 
+    /**
+     * App constructor
+     *
+     * @param RequestHandlerInterface  $businessLogicHandler The concrete request handler.
+     * @param MiddlewareInterface|null $middleware           Optional. A middleware pipe will be created if this is not
+     *                                                       instance of MiddlewarePipe.
+     */
     public function __construct(RequestHandlerInterface $businessLogicHandler, MiddlewareInterface $middleware = null)
     {
         $this->businessLogicHandler = $businessLogicHandler;
@@ -31,6 +41,8 @@ class App extends AbstractHandler
     }
 
     /**
+     * Getter for middleware pipe
+     *
      * @return MiddlewarePipe
      */
     public function getMiddlewarePipe(): MiddlewarePipe
@@ -38,6 +50,9 @@ class App extends AbstractHandler
         return $this->middlewarePipe;
     }
 
+    /**
+     * @return ResponseInterface
+     */
     protected function main(): ResponseInterface
     {
         try {
