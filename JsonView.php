@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class JsonView extends AbstractView
 {
-    const JSON_ROOT = self::class;
+    public const JSON_ROOT = self::class;
     protected $jsonOption = 0;
 
     /**

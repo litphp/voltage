@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @codeCoverageIgnoreStart
+ * phpcs:disable PSR1.Files.SideEffects
+ * phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+ */
+
 use Lit\Nimo\Handlers\FixedResponseHandler;
 use Lit\Voltage\AbstractAction;
 use Lit\Voltage\App;
@@ -10,10 +16,6 @@ use Zend\Diactoros\Response;
 use Zend\Diactoros\ResponseFactory;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
-
-// @codeCoverageIgnoreStart
-// phpcs:disable PSR1.Files.SideEffects
-// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 /** @noinspection PhpIncludeInspection */
 require_once __DIR__ . '/../vendor/autoload.php';
