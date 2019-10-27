@@ -29,6 +29,9 @@
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
+  "scripts": {
+    "test": "phpunit -c ."
+  },
   "extra": {
     "branch-alias": {
       "dev-master": "0.9.x-dev"
