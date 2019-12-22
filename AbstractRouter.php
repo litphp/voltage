@@ -71,7 +71,7 @@ abstract class AbstractRouter implements RouterInterface
      */
     public static function autoPrependSlash(string $path): string
     {
-        if ($path === '' || $path{0} !== '/') {
+        if ($path === '' || $path[0] !== '/') {
             return "/$path";
         } else {
             return $path;
