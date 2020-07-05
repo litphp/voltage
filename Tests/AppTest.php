@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Lit\Voltage\Tests;
 
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
 use Lit\Nimo\Tests\NimoTestCase;
 use Lit\Voltage\AbstractAction;
 use Lit\Voltage\App;
 use Lit\Voltage\ThrowableResponse;
 use PHPUnit\Framework\MockObject\MockObject;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequest;
 
 class AppTest extends NimoTestCase
 {

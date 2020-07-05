@@ -2,11 +2,11 @@
 
 namespace Lit\Voltage\Tests;
 
+use Laminas\Diactoros\ServerRequestFactory;
 use Lit\Voltage\BasicRouter;
 use Lit\Voltage\RouteStubResolver;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\Diactoros\ServerRequestFactory;
 
 class BasicRouterTest extends TestCase
 {

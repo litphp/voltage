@@ -2,9 +2,9 @@
 
 namespace Lit\Voltage\Tests;
 
+use Laminas\Diactoros\Response;
 use Lit\Voltage\JsonView;
 use PHPUnit\Framework\TestCase;
-use Zend\Diactoros\Response;
 
 class JsonViewTest extends TestCase
 {
