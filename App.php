@@ -28,13 +28,13 @@ class App extends AbstractHandler
     /**
      * App constructor
      *
-     * @param RequestHandlerInterface  $businessLogicHandler The concrete request handler.
-     * @param MiddlewareInterface|null $middleware           Optional. A middleware pipe will be created if this is not
-     *                                                       instance of MiddlewarePipe.
+     * @param RequestHandlerInterface  $handler    The concrete request handler.
+     * @param MiddlewareInterface|null $middleware Optional. A middleware pipe will be created if this is not
+     *                                             instance of MiddlewarePipe.
      */
-    public function __construct(RequestHandlerInterface $businessLogicHandler, MiddlewareInterface $middleware = null)
+    public function __construct(RequestHandlerInterface $handler, MiddlewareInterface $middleware = null)
     {
-        $this->businessLogicHandler = $businessLogicHandler;
+        $this->businessLogicHandler = $handler;
         $this->middlewarePipe = $middleware
             ? ($middleware instanceof MiddlewarePipe ? $middleware : (new MiddlewarePipe())->append($middleware))
             : new MiddlewarePipe();
